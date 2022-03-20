@@ -1,0 +1,114 @@
+@{
+    ViewData["Title"] = "Menu - Admin";
+    Layout = "../Shared/_Layout - Admin"; 
+    //Layout = null;
+}
+
+<div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Simple Table</h4>
+                <button>Add</button>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table" id="tableData">
+                    <thead class=" text-primary">
+                      <tr><th>Index</th>
+                                <th>ID</th>
+                                <th>Parent ID</th>
+                                <th>Độ ưu tiên</th>
+                                <th>Vị trí hiển thị</th>
+                                <th>Tên menu</th>
+                                <th>Tên tiếng Anh</th>
+                                <th>Mô tả</th>
+                                <th>URL</th>
+                                <th>URL2</th>
+                                <th>Ngày tạo</th>
+
+                                <th>Chi tiết</th>
+                                <th>Xóa</th>
+                    </tr></thead>
+                    <tbody>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+<script>
+
+    var hiddenItem = ["active"];
+        var dataSource = [];
+        var updatingItemID = 0;
+        var tableUpdating = 0;
+        var table;
+    //load data
+    $(document).ready(function () {
+        loadData();
+    })
+
+    // calling ajax to load data
+    function loadData() {
+            $.ajax({
+                url: "/menu/api/list",
+                type: "GET",
+                contentType: "application/json",
+                success: function (responseData) {
+                    // debugger;
+                    var data = responseData.data;
+                    dataSource = data;
+
+
+
+
+                    data.forEach(function (item, index) {
+                        // console.log(item, index);
+                        var rowContent = "";
+                        rowContent += "<td style='text-align: center;'>" + (index + 1) + "</td>";
+                        for (var key in item) {
+                            if (item.hasOwnProperty(key)) {
+                                // console.log(key + " -> " + item[key]);
+                                debugger;
+                                if (!hiddenItem.includes(key)) {
+                                    if (key == "groupID") {
+                                        if (item[key] == "1") {
+                                            rowContent += "<td class='row" + item.id + "-column column-" + key + "' property='" + key + "'>Main Menu</td>";
+                                        }
+                                        else {
+                                            rowContent += "<td class='row" + item.id + "-column column-" + key + "' property='" + key + "'>Footer Menu</td>";
+                                        }
+                                    }
+                                    else {
+                                        rowContent += "<td class='row"+item.id+"-column column-"+key+"' property='"+key+"'>" + item[key] + "</td>";
+                                    }
+                                }
+                            }
+                        }
+                        rowContent += "<td style='text-align: center;'><a onclick='editItem(" + item.id + ")'><i class='fa fa-edit fa-2x' style='color:#03a9f4'></i></a></td>";
+                        rowContent += "<td style='text-align: center;'><a onclick='deleteItem(" + item.id + ")'><i class='fa fa-trash fa-2x' style='color:#e91e63'></i></a></td>";
+
+                        var newRow = "<tr id='row"+item.id+"' >" + rowContent + "</tr>";
+                        $(newRow).appendTo($("#tableData tbody"));
+
+                        // $("#tableData #dummyRow").after("<tr id='row"+item.id+"' >" + rowContent + "</tr>");
+                    });
+
+                    //Init datatable
+                    if (tableUpdating === 0) {
+                        initTable();
+                    }
+
+                    //update data with foreign key
+                    updateTable();
+                },
+                error: function (e) {
+                    //console.log(e.message);
+                    initTable();
+                }
+            });
+        }
+</script>
