@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Daihoc_FPT_News.Models;
 using Daihoc_FPT_News.Repository;
@@ -48,6 +49,16 @@ namespace Daihoc_FPT_News.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("add/menu")]
+        public async Task<IActionResult> AddMenu()
+        {
+            //var listPost = await repositoryPost.List();
+            //ViewBag.Posts = listPost;
+            //ViewBag.PostCount = listPost.Count;
+            return View();
+        }
+
 
         [HttpGet]
         [Route("api/List")]
@@ -76,7 +87,7 @@ namespace Daihoc_FPT_News.Controllers
         [HttpGet]
         [Route("api/Detail/{Id}")]
         public async Task<IActionResult> Detail(int? Id)
-        {
+        { 
             if (Id == null)
             {
                 return BadRequest();
@@ -90,9 +101,10 @@ namespace Daihoc_FPT_News.Controllers
                 {
                     return NotFound();
                 }
-
-                var novaticResponse = NovaticResponse.SUCCESS(dataList.Cast<object>().ToList());
-                return Ok(novaticResponse);
+                // đẩy dữ liệu về json
+                var response = JsonSerializer.Serialize(dataList.Cast<object>().ToList());
+                //var novaticResponse = NovaticResponse.SUCCESS(dataList.Cast<object>().ToList());
+                return Ok(response);
             }
             catch (Exception)
             {
@@ -190,16 +202,13 @@ namespace Daihoc_FPT_News.Controllers
 
 
         [HttpPost]
-        [Route("api/Update")]
+        [Route("api/edit")]
         public async Task<IActionResult> Update([FromBody]Menu model)
         {
             if (ModelState.IsValid)
             {
                 try
-                {
-                    //1. business logic 
-
-
+                { 
                     //2. update object
                     await repository.Update(model);
 

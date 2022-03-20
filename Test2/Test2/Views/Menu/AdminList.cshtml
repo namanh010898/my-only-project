@@ -53,7 +53,7 @@
 </head>
 
 <body>
-    <button onclick="window.location.href='/post/add/post'" style="width:100px;height:40px;background-color:lightgreen;border-color:white;float:right;margin-bottom:1%;">Add</button>
+    <button onclick="window.location.href='/menu/add/menu'" style="width:100px;height:40px;background-color:lightgreen;border-color:white;float:right;margin-bottom:1%;">Add</button>
     <table id="example" class="display" style="width:100%;">
         <thead>
             <tr>
@@ -104,7 +104,7 @@
                         <label for="menuId">ID</label><span style="color:red">*</span>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" id="menuId" class="fullwidth"  readonly />
+                            <input type="text" id="menuId" class="fullwidth"  disabled />
                         </div>
                     </div>
 
@@ -122,7 +122,7 @@
                         <label for="">Active</label><span style="color:red">*</span> 
                         </div>
                         <div class="col-md-9">
-                            <select id="Active">
+                            <select id="Active" disabled>
                                 <option value="1">Public</option>
                                 <option value="0">Private</option>
                             </select>
@@ -155,10 +155,10 @@
                     </div>
                     <div class="row modal-row-menu">
                         <div class="col-md-3 ">
-                        <label for="">Published Time<span style="color:red">*</span></label>
+                        <label for="">Created Time<span style="color:red">*</span></label>
                         </div>
                         <div class="col-md-9">
-                            <input type="datetime-local" id="publishtime" />
+                            <input type="datetime-local" id="CreatedTime" />
                         </div>
                     </div> 
                      
@@ -184,173 +184,134 @@
     async function Edit(id) {  
         // show modal details and load data by id
         $("#modal-id").show();
-        let obj = await   getItemByID(id);
+        let obj = await getItemByID(id);
         debugger;
 		 $("#menuId").val(obj[0].Id);
-
-        //$('#postcategoryid').find('option').remove().end();
-        //$('#posttypeid').find('option').remove().end();
-        //$('#postlayoutid').find('option').remove().end();
-        //LoadDataPostType();
-        //LoadDataPostLayout();
-        //LoadDataPostCategory();
-        //var obj = await GetDetailItem(id);
-        //$('#id').val(id);
-        //$('#postcategoryid option[value=' + obj[0].PostCategoryID + ']').attr('selected', 'selected');
-        //$('#posttypeid option[value=' + obj[0].PostTypeID + ']').attr('selected', 'selected');
-        //$('#postlayoutid option[value=' + obj[0].PostLayoutID + ']').attr('selected', 'selected');
-        //$('#postpublishid option[value=' + obj[0].PostPublishStatusID + ']').attr('selected', 'selected');
-        //$('#postcommentstatusid option[value=' + obj[0].PostCommentStatusID + ']').attr('selected', 'selected');
-        //posttext.setData(obj[0].Text);
-        //$("#name").val(obj[0].Name);
-        //if (obj[0].Photo != null) {
-        //    $("#photo").val(obj[0].Photo);
-        //} else {
-
-        //}
-        //if (obj[0].Video != null) {
-        //    $("#video").val(obj[0].Video);
-        //} else {
-
-        //}
-        //$("#url").val(obj[0].Url);
-        //$("#description").val(obj[0].Description);
-        //$("#publishtime").val(obj[0].PublishedTime);
+		 $("#ParentID").val(obj[0].ParentId);
+		 $("#Active").val(obj[0].Active);
+		 $("#Name").val(obj[0].Name);
+		 $("#Url").val(obj[0].Url);
+		 $("#Description").val(obj[0].Description);
+		 $("#CreatedTime").val(obj[0].CreatedTime);
     }
 
     async function getItemByID(id) {
-        $.ajax({
-            url: "/menu/api/list",
-            type: "GET",
-            async: 'true',
-            contentType: "application/json",
-            success: function (responseData) {
-                // ajax lọc list menu trả về result là 1 row data theo ID
-                var dataSource = responseData.data;
-                const result = dataSource.find(item => parseInt(item.id) === id);
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "/menu/api/detail/" + id ,
+                type: "GET",
+                async: 'true',
+                contentType: "application/json",
+                success: function (responseData) {
+                    debugger;
+                    Item = JSON.parse(responseData);
+                    resolve(Item)
+                },
+                error: function (e) {
+                    reject(e);
+                }
+            });
+        })
 
-            },
-            error: function (e) {
+        // không rõ
+        // ajax phải dùng js đẩy thẳng chứ k truyền đc dữ liệu , k return
+        //$.ajax({
+        //    url: "/menu/api/list",
+        //    type: "GET",
+        //    async: 'true',
+        //    contentType: "application/json",
+        //    success: function (responseData) {
+        //        // ajax lọc list menu trả về result là 1 row data theo ID
+        //        debugger;
+        //        var dataSource = responseData.data;
+        //        const result = dataSource.find(item => parseInt(item.id) === id);
+        //        // return = resolve
+        //        // câu lệnh của promise = await asyn
+        //        resolve(result); 
+        //    },
+        //    error: function (e) {
 
-            }
-        });
+        //    }
+        //});
         }
+
+
+        async function DeleteItem(id) {
+        debugger;
+        Swal.fire({
+            icon: 'question',
+            title: 'Bạn có muốn xóa item này?',
+            showCancelButton: true,
+            showCloseButton: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //var obj = await GetDetailItem(id);
+                $.ajax({
+                    url: "/menu/api/delete",
+                    type: 'POST',
+                    contentType: 'application/JSON',
+                    data: JSON.stringify({ "id": id }),
+                    success: function (responseData) { 
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: '<strong>Item đã xóa thành công!</strong>',
+                            showCloseButton: true,
+                            focusConfirm: false,
+                        }).then(resultt => {
+                                if (resultt.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+
+                    }
+                })
+            }
+        })
+    }
 </script>
-<script>
-    var posttext;
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .then(editor => {
-            posttext = editor
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-
-    function LoadDataPostType() {
-        $.ajax({
-            url: "https://localhost:5001/posttype/api/list",
-            type: "GET",
-            async: 'true',
-            contentType: "application/json",
-            success: function (responseData) {
-                postLayoutData = JSON.parse(responseData);
-                $.each(postLayoutData, function (index, item) {
-                    var data = {
-                        id: item.Id,
-                        text: item.Name
-                    };
-                    var newOption = new Option(data.text, data.id, false, false);
-                    $("#posttypeid").append(newOption).trigger('change');
-                });
-            },
-            error: function (e) {
-
-            }
-        });
-    }
-    function LoadDataPostLayout() {
-        $.ajax({
-            url: "https://localhost:5001/postlayout/api/list",
-            type: "GET",
-            async: 'true',
-            contentType: "application/json",
-            success: function (responseData) {
-                postLayoutData = JSON.parse(responseData);
-                $.each(postLayoutData, function (index, item) {
-                    var data = {
-                        id: item.Id,
-                        text: item.Name
-                    };
-                    var newOption = new Option(data.text, data.id, false, false);
-                    $("#postlayoutid").append(newOption).trigger('change');
-                });
-            },
-            error: function (e) {
-
-            }
-        });
-    }
-    function LoadDataPostCategory() {
-        $.ajax({
-            url: "https://localhost:5001/postcategory/api/list",
-            type: "GET",
-            async: 'true',
-            contentType: 'application/json',
-            success: function (responseData) {
-                postcategorydata = JSON.parse(responseData);
-                $.each(postcategorydata, function (index, item) {
-                    var data = {
-                        id: item.Id,
-                        text: item.Name
-                    };
-                    var newOption = new Option(data.text, data.id, false, false);
-                    $("#postcategoryid").append(newOption).trigger('change');
-                });
-            }
-        })
-    }
+<script> 
+     
     
     function Submit() {
         Swal.fire({
-            type: 'question',
+            icon: 'question',
             title: 'Confirm?',
             text: 'Do you want to edit this menu ?',
             showCloseButton: true,
             showCancelButton: true
         }).then((result) => {
-            if (result.isConfirmed) {
-                var data = posttext.getData();
+            if (result.isConfirmed) { 
+                debugger;
                 var obj = {
-                    "ID": $("#id").val(),
-                    "PostTypeID": $("#posttypeid").val(),
-                    "PostAccountID": 10001,
-                    "PostLayoutID": $("#postlayoutid").val(),
-                    "PostPublishStatusID": $("#postpublishid").val(),
-                    "PostCommentStatusID": $("#postcommentstatusid").val(),
-                    "Active": 1,
-                    "Url": $("#url").val(),
-                    "Photo": $("#photo").val(),
-                    "Video": $("#video").val(),
-                    "Name": $("#name").val(),
-                    "Description": $("#description").val(),
-                    "Text": data,
-                    "PublishedTime": $("#publishtime").val()
+                    "ID": $("#menuId").val(), 
+                    "ParentID": $("#ParentID").val(), 
+                    "Active": $("#Active").val(),
+                    "Name": $("#Name").val(),
+                    "Url": $("#Url").val(),
+                    "Priority" : 100,   // set mặc định cho priority
+                    "GroupID" : 1,  // set mặc định cho groupid
+                    "Description": $("#Description").val(), 
+                    "CreatedTime": $("#CreatedTime").val(),
                 }
                 $.ajax({
-                    url: "https://localhost:5001/menu/api/edit",
+                    url: "/menu/api/edit",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(obj),
                     success: function (responseData) {
+                       
                         Swal.fire({
-                            type: 'confirm',
-                            title: '<strong>Đã chỉnh sửa bài viết!</strong>',
+                            icon: 'success',
+                            title: '<strong>Đã chỉnh sửa Menu!</strong>',
                             showCloseButton: true,
                             focusConfirm: false,
-                        });
-                        location.reload();
+                        }).then(resultt => {
+                                if (resultt.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        
                     }
                 })
             } else if (result.isDenied) {
@@ -362,12 +323,12 @@
     async function GetDetailItem(id) {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "https://localhost:5001/menu/api/detail/" + id,
+                url: "/menu/api/detail/" + id,
                 type: "GET",
                 async: 'true',
                 contentType: "application/json",
                 success: function (responseData) {
-                    Item = JSON.parse(responseData);
+                    var Item = JSON.parse(responseData);
                     resolve(Item)
                 },
                 error: function (e) {
@@ -378,28 +339,5 @@
     }
 
 
-    async function DeleteItem(id) {
-        Swal.fire({
-            icon: 'question',
-            title: 'Do you want to delete item',
-            showCancelButton: true,
-            showCloseButton: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var obj = await GetDetailItem(id);
-                $.ajax({
-                    url: "/menu/api/delete",
-                    type: 'POST',
-                    contentType: 'application/JSON',
-                    data: JSON.stringify({ "id": id }),
-                    success: function (responseData) {
-                        Swal.fire('Deleted!',
-                            'Item ' + obj.name + ' has been deleted.',
-                            'success');
-                        location.reload();
-                    }
-                })
-            }
-        })
-    }
+    
 </script>

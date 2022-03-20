@@ -475,4 +475,4 @@ C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-onl
 C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Daihoc_FPT_News.pdb
 C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Daihoc_FPT_News.genruntimeconfig.cache
 C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Razor\Views\Shared\_Layout - sidebar.cshtml.g.cs
-C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Razor\Views\Menu\AddPost.cshtml.g.cs
+C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Razor\Views\Menu\AddMenu.cshtml.g.cs
