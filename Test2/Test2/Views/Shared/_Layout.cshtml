@@ -104,12 +104,25 @@
         {
             <li>
                 <!-- Neu menu la cau hoi thuong gap thi thay doi style -->
-                <a href="@ViewBag.MenuList[i].Url"> @ViewBag.MenuList[i].Name</a>
-                <!-- Tab tro xuong hien thi thong tin chi tiet -->
-                @*<ul>
-                    <li><a href="index.html">Home Default</a></li>
-                    <li><a href="index-2.html">Home Modern</a></li>
-                </ul>*@
+                @if(@ViewBag.MenuList[i].ParentId == 0)
+                {
+                                        
+                    <a href="@ViewBag.MenuList[i].Url"> @ViewBag.MenuList[i].Name</a>
+                    
+                    @for(var j=0; j< @ViewBag.MenuList.Count; j ++)
+                    {
+                        @if(@ViewBag.MenuList[j].ParentId == @ViewBag.MenuList[i].Id)
+                        {
+                            <ul>
+                            <a class="dropdown-item" href="#">@ViewBag.MenuList[j].Name </a>
+                            </ul>
+
+                        }
+                        
+                    }
+                    
+                }
+                
             </li>
                                 
         }
