@@ -16,39 +16,30 @@ namespace Daihoc_FPT_News.Controllers
     [ApiController]
     public class MenuController : BaseController
     {
-        IMenuRepository repository;
-        //ISystemConfigRepository repositorySystemConfig;
-        //IAccountRepository repositoryAccount;
+        IMenuRepository repository; 
         public MenuController(ICacheHelper cacheHelper, IMenuRepository _repository) : base(cacheHelper)
-        {
-            // chua xu li : ,ISystemConfigRepository _repositorySystemConfig, IAccountRepository _repositoryAccount
-            repository = _repository;
-            //repositorySystemConfig = _repositorySystemConfig;
-            //repositoryAccount = _repositoryAccount;
+        { 
+            repository = _repository; 
         }
 
 
         [HttpGet]
         [Route("admin/List")]
         public async Task<IActionResult> AdminList()
-        {
-            // kiểm tra nếu không phải admin thì điều hướng 403
-            //if (UserTypeID != 10001)
-            //{
-            //    return Redirect("/403.html");
-            //}
+        { 
             try
             {
-                var dataList = await repository.List();
+                var listMenu = await repository.List();
 
-                if (dataList == null || dataList.Count == 0)
+                // return 404 nếu menu null
+                if (listMenu == null || listMenu.Count == 0)
                 {
-                    //return NotFound();
+                    return NotFound(); 
                 }
 
-
-                ViewBag.entities = dataList;
-                return View(dataList);
+                ViewBag.listMenu = listMenu;
+                ViewBag.MenuCount = listMenu.Count;
+                return View();
                 
             }
             catch (Exception)
@@ -244,8 +235,8 @@ namespace Daihoc_FPT_News.Controllers
                     //2. logically delete object
                     await repository.Delete(model);
 
-                    var novaticResponse = NovaticResponse.SUCCESS(model);
-                    return Ok(novaticResponse);
+                    var response = NovaticResponse.SUCCESS(model);
+                    return Ok(response);
                 }
                 catch (Exception ex)
                 {
