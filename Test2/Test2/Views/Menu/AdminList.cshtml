@@ -271,18 +271,16 @@
     }
 </script>
 <script> 
-     
     
     function Submit() {
         Swal.fire({
             icon: 'question',
             title: 'Confirm?',
-            text: 'Do you want to edit this menu ?',
+            text: 'Bạn có muốn sửa menu ?',
             showCloseButton: true,
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) { 
-                debugger;
                 var obj = {
                     "ID": $("#menuId").val(), 
                     "ParentID": $("#ParentID").val(), 
@@ -337,7 +335,4 @@
             });
         })
     }
-
-
-    
 </script>

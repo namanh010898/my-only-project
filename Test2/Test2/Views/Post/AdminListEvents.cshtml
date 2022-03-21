@@ -23,25 +23,50 @@
 
     <script>
         $(document).ready(function () {
-            $('#example').DataTable();
+            $('#example').DataTable({
+                aLengthMenu: [
+                [3, 5, 10, 20, 50, -1],
+                [3, 5, 10, 20, 50, 'Tất cả']
+                ]
+            });
         });
     </script>
     <style>
         .modal-footer .btn + .btn {
             margin-bottom: 10px;
         }
+
+        #example_wrapper {
+            display : block;
+        }
+
+        /* Giao diện modal */
+        input.fullwidth {
+            width : 100%;
+        }
+
+        #closing-modal-black:hover {
+            color :#333 !important;
+        }
+
+        .modal-row-menu {
+            margin-top : 13px;
+        }
     </style>
 
 </head>
 
 <body>
-    <button onclick="window.location.href='/post/add/post'" style="width:100px;height:40px;background-color:lightgreen;border-color:white;float:right;margin-bottom:1%;">Add</button>
+    <button onclick="window.location.href='/post/add/postEvents'" style="width:100px;height:40px;background-color:lightgreen;border-color:white;float:right;margin-bottom:1%;">Add</button>
     <table id="example" class="display" style="width:100%;">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Tên</th>
                 <th>Mô tả</th>
-                <th>Tác giả</th>
+                <th>Bắt đầu</th>
+                <th>Kết thúc</th>
+                <th>Địa điểm</th>
                 <th>Chi tiết</th>
                 <th>Xóa</th>
             </tr>
@@ -50,9 +75,12 @@
             @for (int i = 0; i < ViewBag.PostCount; i++)
             {
                 <tr>
+                    <td>@ViewBag.Posts[i].Id</td>
                     <td>@ViewBag.Posts[i].Name</td>
                     <td>@ViewBag.Posts[i].Description</td>
-                    <td>@ViewBag.Posts[i].PostAccountId</td>
+                    <td>@ViewBag.Posts[i].OpenTime</td>
+                    <td>@ViewBag.Posts[i].ClosedTime</td>
+                    <td>@ViewBag.Posts[i].EventAddress</td>
                     <td><button onclick="Edit(@ViewBag.Posts[i].Id)" data-toggle="modal" data-target="#modal-id">Sửa</button></td>
                     <td><button onclick="DeleteItem(@ViewBag.Posts[i].Id)">Xóa</button></td>
                 </tr>
@@ -60,9 +88,12 @@
         </tbody>
         <tfoot>
             <tr>
+                <th>ID</th>
                 <th>Tên</th>
                 <th>Mô tả</th>
-                <th>Tác giả</th>
+                <th>Bắt đầu</th>
+                <th>Kết thúc</th>
+                <th>Địa điểm</th>
                 <th>Chi tiết</th>
                 <th>Xóa</th>
             </tr>
@@ -72,65 +103,134 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-info">
-                </div>
+                </div> 
+
                 <div class="modal-body">
-                    <div>
-                        <span>
-                            <label for="id">ID</label><span style="color:red">*</span>
-                            <input type="text" id="id" readonly />
-                        </span>
-                        <span>
-                            <label for="posttypeid">Post Type</label><span style="color:red">*</span>
-                            <select id="posttypeid">
-                            </select>
-                        </span>
+                    <h3>Sự kiện</h3>
+                    <i>Lưu ý điền đầy đủ các thông tin có dấu <span style="color:red">*</span></i>
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="ID">ID(Tự động)</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="ID" class="fullwidth"  disabled />
+                        </div>
                     </div>
-                    <div>
-                        <label for="postcategoryid">Post Category</label>
-                        <div>
-                            <select id="postcategoryid">
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Name">Name</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Name" class="fullwidth"   />
+                        </div>
+                    </div>
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="PostCategoryID">Category(Tự động)</label><span style="color:red">*</span> 
+                        </div>
+                        <div class="col-md-9">
+                            <select id="PostCategoryID" disabled>
+                                <option value="1">Tin tức</option>
+                                <option value="2">Tin tức hợp tác</option>
+                                <option value="3" selected>Sự kiện</option>
+                            </select>
+                        </div>
+                    </div> 
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Active">Active(Tự động)</label><span style="color:red">*</span> 
+                        </div>
+                        <div class="col-md-9">
+                            <select id="Active" disabled>
+                                <option value="1">Public</option>
+                                <option value="0">Private</option>
                             </select>
                         </div>
                     </div>
-                    <label for="postaccountid">Author</label><span style="color:red">*</span>
-                    <div><input type="text" id="postaccountid" readonly /></div>
-                    <label for="postlayoutid">Post Layout</label><span style="color:red">*</span>
-                    <div>
-                        <select id="postlayoutid">
-                        </select>
+                    
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="PostCommentStatusID">Comment</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="PostCommentStatusID">
+                                <option value="1">Public</option>
+                                <option value="0">Private</option>
+                            </select>
+                        </div>
+                    </div>  
+                     
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Photo">Photo</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Photo" class="fullwidth"  />
+                        </div>
+                    </div> 
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Description">Description</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Description" class="fullwidth"   />
+                        </div>
                     </div>
-                    <label for="">Post Publish</label><span style="color:red">*</span>
-                    <div>
-                        <select id="postpublishid">
-                            <option value="1">Public</option>
-                            <option value="0">Private</option>
-                        </select>
-                    </div>
-                    <label for="">Post Comment</label><span style="color:red">*</span>
-                    <div>
-                        <select id="postcommentstatusid">
-                            <option value="1">Public</option>
-                            <option value="0">Private</option>
-                        </select>
-                    </div>
-                    <label for="">Url</label>
-                    <div><input type="text" id="url" readonly /></div>
-                    <label for="Photo">Photo</label>
-                    <div><input type="text" id="photo" /></div>
-                    <label for="Video">Video</label>
-                    <div><input type="text" id="video" /></div>
-                    <label for="Name">Name</label>
-                    <div><input type="text" id="name" /></div>
-                    <label for="description">Description</label>
-                    <div><textarea id="description"></textarea></div>
-                    <label for="">Content</label>
-                    <div id="editor" class="Text"></div>
-                    <label for="">Published Time</label>
-                    <div><input type="datetime-local" id="publishtime" /></div>
+                    
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Content">Content</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div id="Content" class="Text"></div>
+                        </div>
+                    </div> 
+                        
+
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="PublishedTime">Published Time<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="datetime-local" id="PublishedTime" />
+                        </div>
+                    </div> 
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="OpenTime">Open Time<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="datetime-local" id="OpenTime" />
+                        </div>
+                    </div> 
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="ClosedTime">Closed Time<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="datetime-local" id="ClosedTime" />
+                        </div>
+                    </div> 
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="EventAddress">Event Address<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="EventAddress" class="fullwidth"   />
+                        </div>
+                    </div> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
-                            data-dismiss="modal">
+                            data-dismiss="modal" style="    display: contents">
                         Close
                     </button>
                     <button type="button" class="btn btn-primary" id="btnUpdateItem" onclick="Submit()">
@@ -141,13 +241,48 @@
             </div>
         </div>
     </div>
-</body>
-
+</body> 
 </html>
 <script>
+    async function DeleteItem(id) {
+        debugger;
+        Swal.fire({
+            icon: 'question',
+            title: 'Bạn có muốn xóa item này?',
+            showCancelButton: true,
+            showCloseButton: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //var obj = await GetDetailItem(id);
+                $.ajax({
+                    url: "/post/api/delete",
+                    type: 'POST',
+                    contentType: 'application/JSON',
+                    data: JSON.stringify({ "id": id }),
+                    success: function (responseData) { 
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: '<strong>Item đã xóa thành công!</strong>',
+                            showCloseButton: true,
+                            focusConfirm: false,
+                        }).then(resultt => {
+                                if (resultt.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+
+                    }
+                })
+            }
+        })
+    }
+</script>
+<script>
+    // js for description editor 
     var posttext;
     ClassicEditor
-        .create(document.querySelector('#editor'))
+        .create(document.querySelector('#Content'))
         .then(editor => {
             posttext = editor
         })
@@ -155,110 +290,57 @@
             console.error(error);
         });
 
-
-    function LoadDataPostType() {
-        $.ajax({
-            url: "https://localhost:5001/posttype/api/list",
-            type: "GET",
-            async: 'true',
-            contentType: "application/json",
-            success: function (responseData) {
-                postLayoutData = JSON.parse(responseData);
-                $.each(postLayoutData, function (index, item) {
-                    var data = {
-                        id: item.Id,
-                        text: item.Name
-                    };
-                    var newOption = new Option(data.text, data.id, false, false);
-                    $("#posttypeid").append(newOption).trigger('change');
-                });
-            },
-            error: function (e) {
-
-            }
-        });
-    }
-    function LoadDataPostLayout() {
-        $.ajax({
-            url: "https://localhost:5001/postlayout/api/list",
-            type: "GET",
-            async: 'true',
-            contentType: "application/json",
-            success: function (responseData) {
-                postLayoutData = JSON.parse(responseData);
-                $.each(postLayoutData, function (index, item) {
-                    var data = {
-                        id: item.Id,
-                        text: item.Name
-                    };
-                    var newOption = new Option(data.text, data.id, false, false);
-                    $("#postlayoutid").append(newOption).trigger('change');
-                });
-            },
-            error: function (e) {
-
-            }
-        });
-    }
-    function LoadDataPostCategory() {
-        $.ajax({
-            url: "https://localhost:5001/postcategory/api/list",
-            type: "GET",
-            async: 'true',
-            contentType: 'application/json',
-            success: function (responseData) {
-                postcategorydata = JSON.parse(responseData);
-                $.each(postcategorydata, function (index, item) {
-                    var data = {
-                        id: item.Id,
-                        text: item.Name
-                    };
-                    var newOption = new Option(data.text, data.id, false, false);
-                    $("#postcategoryid").append(newOption).trigger('change');
-                });
-            }
-        })
-    }
+         
     
-    function Submit() {
+     function Submit() {
         Swal.fire({
-            type: 'question',
+            icon: 'question',
             title: 'Confirm?',
-            text: 'Do you want to edit this post ?',
+            text: 'Bạn có muốn sửa event ?',
             showCloseButton: true,
             showCancelButton: true
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.isConfirmed) { 
                 var data = posttext.getData();
+                debugger;
                 var obj = {
-                    "ID": $("#id").val(),
-                    "PostTypeID": $("#posttypeid").val(),
+                    "ID" : $("#ID").val(),  
+                    "PostTypeID": 1,
                     "PostAccountID": 10001,
-                    "PostLayoutID": $("#postlayoutid").val(),
-                    "PostPublishStatusID": $("#postpublishid").val(),
-                    "PostCommentStatusID": $("#postcommentstatusid").val(),
-                    "Active": 1,
-                    "Url": $("#url").val(),
-                    "Photo": $("#photo").val(),
-                    "Video": $("#video").val(),
-                    "Name": $("#name").val(),
-                    "Description": $("#description").val(),
-                    "Text": data,
-                    "PublishedTime": $("#publishtime").val()
+                    "PostCategoryID" :  $("#PostCategoryID").val(),  
+                    "PostLayoutID": 1,
+                    "PostPublishStatusID": 1,
+                    "PostCommentStatusID": $("#PostCommentStatusID").val(),             
+                    "Active":  $("#Active").val(),      
+                    "Url": "",
+                    "Photo": $("#Photo").val(),     
+                    "Video": "",
+                    "Name": $("#Name").val(),       
+                    "Description": $("#Description").val(),     
+                    "Text": data,       
+                    "PublishedTime": $("#PublishedTime").val(),        
+                    "OpenTime": $("#OpenTime").val(),        
+                    "ClosedTime": $("#ClosedTime").val(),        
+                    "EventAddress": $("#EventAddress").val(),  
                 }
                 $.ajax({
-                    url: "https://localhost:5001/post/api/edit",
+                    url: "/post/api/edit",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(obj),
                     success: function (responseData) {
+                       
                         Swal.fire({
-                            type: 'confirm',
-                            title: '<strong>Đã chỉnh sửa bài viết!</strong>',
+                            icon: 'success',
+                            title: '<strong>Đã chỉnh sửa Event!</strong>',
                             showCloseButton: true,
                             focusConfirm: false,
-                        });
-                        location.reload();
+                        }).then(resultt => {
+                                if (resultt.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        
                     }
                 })
             } else if (result.isDenied) {
@@ -287,58 +369,40 @@
 
     async function Edit(id) {
         $("#modal-id").show();
-        $('#postcategoryid').find('option').remove().end();
-        $('#posttypeid').find('option').remove().end();
-        $('#postlayoutid').find('option').remove().end();
-        LoadDataPostType();
-        LoadDataPostLayout();
-        LoadDataPostCategory();
-        var obj = await GetDetailItem(id);
-        $('#id').val(id);
-        $('#postcategoryid option[value=' + obj[0].PostCategoryID + ']').attr('selected', 'selected');
-        $('#posttypeid option[value=' + obj[0].PostTypeID + ']').attr('selected', 'selected');
-        $('#postlayoutid option[value=' + obj[0].PostLayoutID + ']').attr('selected', 'selected');
-        $('#postpublishid option[value=' + obj[0].PostPublishStatusID + ']').attr('selected', 'selected');
-        $('#postcommentstatusid option[value=' + obj[0].PostCommentStatusID + ']').attr('selected', 'selected');
+        let obj = await getItemByID(id);
+        debugger;
+        $("#ID").val(obj[0].Id);
+		$("#Name").val(obj[0].Name);
+
+		$("#PostCommentStatusID").val(obj[0].PostCommentStatusId);
+		$("#Photo").val(obj[0].Photo); 
+		$("#Description").val(obj[0].Description);
+		 
         posttext.setData(obj[0].Text);
-        $("#name").val(obj[0].Name);
-        if (obj[0].Photo != null) {
-            $("#photo").val(obj[0].Photo);
-        } else {
 
-        }
-        if (obj[0].Video != null) {
-            $("#video").val(obj[0].Video);
-        } else {
-
-        }
-        $("#url").val(obj[0].Url);
-        $("#description").val(obj[0].Description);
-        $("#publishtime").val(obj[0].PublishedTime);
+		$("#PublishedTime").val(obj[0].PublishedTime);
+		$("#OpenTime").val(obj[0].OpenTime);
+		$("#ClosedTime").val(obj[0].ClosedTime);
+		$("#EventAddress").val(obj[0].EventAddress);
+         
     }
 
-    async function DeleteItem(id) {
-        Swal.fire({
-            icon: 'question',
-            title: 'Do you want to delete item',
-            showCancelButton: true,
-            showCloseButton: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var obj = await GetDetailItem(id);
-                $.ajax({
-                    url: "https://localhost:5001/post/api/delete",
-                    type: 'POST',
-                    contentType: 'application/JSON',
-                    data: JSON.stringify({ "id": id }),
-                    success: function (responseData) {
-                        Swal.fire('Deleted!',
-                            'Item ' + obj.name + ' has been deleted.',
-                            'success');
-                        location.reload();
-                    }
-                })
-            }
+    async function getItemByID(id) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "/post/api/detail/" + id ,
+                type: "GET",
+                async: 'true',
+                contentType: "application/json",
+                success: function (responseData) { 
+                    Item = JSON.parse(responseData);
+                    resolve(Item);
+                },
+                error: function (e) {
+                    reject(e);
+                }
+            });
         })
-    }
+        }
+
 </script>

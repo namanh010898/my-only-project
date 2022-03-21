@@ -44,9 +44,9 @@ namespace Daihoc_FPT_News.Controllers
         [Route("admin/listEvents")]
         public async Task<IActionResult> AdminListEvents()
         {
-            var listPost = await repositoryPost.List();
-            ViewBag.Posts = listPost;
-            ViewBag.PostCount = listPost.Count;
+            var listAllEvent = await repositoryPost.ListAllEvent();
+            ViewBag.Posts = listAllEvent;
+            ViewBag.PostCount = listAllEvent.Count;
             return View();
         }
 
@@ -59,6 +59,16 @@ namespace Daihoc_FPT_News.Controllers
             //ViewBag.PostCount = listPost.Count;
             return View();
         }
+        
+
+        [HttpGet]
+        [Route("add/postEvents")]
+        public async Task<IActionResult> AddPostEvents()
+        {
+            //var listPost = await repositoryPost.ListE(); 
+            return View();
+        }
+
         [HttpGet]
         [Route("api/detail/{id}")]
         public async Task<IActionResult> Detail(int id)
@@ -145,6 +155,58 @@ namespace Daihoc_FPT_News.Controllers
             }
             return BadRequest();
         }
+
+
+        [HttpGet]
+        [Route("api/ListPagingEventGoingOn/{pageIndex}/{pageSize}")]
+        public async Task<IActionResult> ListPagingEvent(int pageIndex, int pageSize)
+        {
+            if (pageIndex < 0 || pageSize < 0) return BadRequest();
+            try
+            {
+                var dataList = await repositoryPost.ListEventsIsGoingOnPaging(pageIndex, pageSize);
+
+                if (dataList == null || dataList.Count == 0)
+                {
+                    return NotFound();
+                }
+
+                // tìm hiểu thêm
+                var novaticResponse = NovaticResponse.SUCCESS(dataList.Cast<object>().ToList());
+                return Ok(novaticResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/ListPagingEventEnded/{pageIndex}/{pageSize}")]
+        public async Task<IActionResult> ListPagingEventEnded(int pageIndex, int pageSize)
+        {
+            if (pageIndex < 0 || pageSize < 0) return BadRequest();
+            try
+            {
+                var dataList = await repositoryPost.ListEventsEndedPaging(pageIndex, pageSize);
+
+                if (dataList == null || dataList.Count == 0)
+                {
+                    return NotFound();
+                }
+
+                var novaticResponse = NovaticResponse.SUCCESS(dataList.Cast<object>().ToList());
+                return Ok(novaticResponse);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+
 
         [HttpPost]
         [Route("api/search/{name}")]

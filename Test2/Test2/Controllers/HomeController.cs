@@ -63,9 +63,9 @@ namespace Daihoc_FPT_News.Controllers
         {  
             string lang = "vi";
             List<Menu> MenuList = await repositoryMenu.ListMenuHeader();
-            ViewBag.MenuList = NovaticUtil.ChangeMenuLanguage(MenuList, lang);
+            ViewBag.MenuList = MenuList;
             List<Menu> MenuListFooter = await repositoryMenu.ListMenuFooter();
-            ViewBag.MenuListFooter = NovaticUtil.ChangeMenuLanguage(MenuListFooter, lang);
+            ViewBag.MenuListFooter = MenuListFooter;
 
             var HaveListEventAboutToStartSoon = 0;
             var listAllEvent = await repositoryPost.ListAllEvent();
@@ -74,13 +74,13 @@ namespace Daihoc_FPT_News.Controllers
                 ViewBag.listAllEvent = listAllEvent;
             }
 
-            
 
+            // lọc sự kiện sắp diễn ra
             List<Post> listPostEventAboutToStartSoon = new List<Post>();
             if (listAllEvent != null && listAllEvent.Count > 0)
             {
                 for (int i = 0; i < listAllEvent.Count; i++)
-                {
+                { 
                     if (DateTime.Now < listAllEvent[i].OpenTime)
                     {
                         listPostEventAboutToStartSoon.Add(listAllEvent[i]);
@@ -95,8 +95,9 @@ namespace Daihoc_FPT_News.Controllers
             }
             ViewBag.HaveListEventAboutToStartSoon = HaveListEventAboutToStartSoon;
 
+            // sự kiện đang diễn ra
             var HaveListEventsIsGoingOn = 0;
-            var ListEventsIsGoingOn = await repositoryPost.ListEventsIsGoingOnPaging(1, 4);
+            var ListEventsIsGoingOn = await repositoryPost.ListEventsIsGoingOnPaging(1, 1);
             if (ListEventsIsGoingOn != null && ListEventsIsGoingOn.Count > 0)
             {
                 HaveListEventsIsGoingOn = 1;
@@ -105,7 +106,9 @@ namespace Daihoc_FPT_News.Controllers
             ViewBag.HaveListEventsIsGoingOn = HaveListEventsIsGoingOn;
 
             var HavelistEventsEnded = 0;
-            var listEventsEnded = await repositoryPost.ListEventsEndedPaging(1, 4);
+
+            // lọc sự kiện đã kết thúc 
+            var listEventsEnded = await repositoryPost.ListEventsEndedPaging(1, 1);
             if (listEventsEnded != null && listEventsEnded.Count > 0)
             {
                 HavelistEventsEnded = 1;

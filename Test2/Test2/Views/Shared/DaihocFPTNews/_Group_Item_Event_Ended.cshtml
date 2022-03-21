@@ -145,22 +145,22 @@
 
 <div id="Nextview-button2" style="text-align: center; padding-bottom: 50px; margin:auto;width:90%; display:block" class="row">
     @*<button id="NextViewID" onclick="NextView2();" style="text-transform:uppercase; padding-left: 120px; padding-right: 120px; background-color: #11335A; color: #FFFFFF" type="button" class="btn btn-default0">Xem thêm</button>*@
-    <button id="NextViewID" onclick="NextView2();" type="button" class="btn btn-warning" style="width: 10%;">Xem thêm</button>
+    <button id="NextViewID2" onclick="NextView2();" type="button" class="btn btn-warning" style="width: 10%;">Xem thêm</button>
 </div>
 
 <script>
 
-    var currentpageIndex = 2;
+    var currentpageIndexz = 2;
 
     function NextView2() {
         debugger;
-        var currentpageSize = 4;
+        var currentpageSize = 1;
         var SameCategoryListCount = "";
         var dataSource = [];
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: '/Post/api/ListPagingEventEnded/' + currentpageIndex + '/' + currentpageSize,
+            url: '/Post/api/ListPagingEventEnded/' + currentpageIndexz + '/' + currentpageSize,
             success: function (result) {
                 console.log("arrList: " + result.data);
                 dataSource = result.data;
@@ -197,6 +197,6 @@
                 $("#next-viewEventsEnded").append(`<p style="text-align: center; font-size: 15px">Đã xem hết các sự kiện đã kết thúc<p> `);
             }
         });
-        currentpageIndex++;
+        currentpageIndexz++;
     }
 </script>

@@ -101,9 +101,10 @@
             var item = ViewBag.ListEventsIsGoingOn[i];
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 Event_Image" id="event-image-mobile">
+            <a href="/detail/@item.Url">
             @if (item.Photo == "")
             {
-                <img class="imageItem" style="width: 100%" src="" />
+                <img class="imageItem" style="width: 100%" src="https://khangphudataudio.com/wp-content/uploads/2020/09/to-chuc-event.jpg" />
             }
             else
             {
@@ -111,7 +112,8 @@
             }
 
             @*<img class="goingOnLogo" src="~/images/Group 265 (1).png" />*@
-            <p class="PlayButton"><a href="/detail/@item.Url"><i class="fas fa-play" style="font-size: 18px;"></i></a></p>
+            <p class="PlayButton"><i class="fas fa-play" style="font-size: 18px;"></i></p>
+            </a>
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 EventContext">
             <a class="ellipsis3" href="/detail/@item.Url">@item.Name</a>
@@ -123,6 +125,7 @@
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 Event_Image" id="event-image">
+            <a href="/detail/@item.Url">
             @if (item.Photo == "")
             {
                 <img class="imageItem" style="width: 100%" src="" />
@@ -133,7 +136,8 @@
             }
 
             @*<img class="goingOnLogo" src="~/images/Group 265 (1).png" />*@
-            <p class="PlayButton"><a href="/detail/@item.Url"><i class="fas fa-play" style="font-size: 18px;"></i></a></p>
+            <p class="PlayButton"><i class="fas fa-play" style="font-size: 18px;"></i></p>
+            </a>
         </div>
 
     </div>
@@ -164,7 +168,7 @@
 
     function NextView() {
         debugger;
-        var currentpageSize = 4;
+        var currentpageSize = 1;
         var SameCategoryListCount = "";
         var dataSource = [];
         $.ajax({
