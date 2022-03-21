@@ -76,7 +76,7 @@
             {
                 <tr>
                     <td>@ViewBag.Posts[i].Id</td>
-                    <td>@ViewBag.Posts[i].Name</td>
+                    <td>@ViewBag.Posts[i].Name</td> 
                     <td>@ViewBag.Posts[i].Description</td>
                     <td>@ViewBag.Posts[i].OpenTime</td>
                     <td>@ViewBag.Posts[i].ClosedTime</td>
@@ -123,6 +123,15 @@
                         </div>
                         <div class="col-md-9">
                             <input type="text" id="Name" class="fullwidth"   />
+                        </div>
+                    </div>
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Url">Url(Tự động)</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Url" class="fullwidth"  disabled />
                         </div>
                     </div>
 
@@ -293,60 +302,118 @@
          
     
      function Submit() {
-        Swal.fire({
-            icon: 'question',
-            title: 'Confirm?',
-            text: 'Bạn có muốn sửa event ?',
-            showCloseButton: true,
-            showCancelButton: true
-        }).then((result) => {
-            if (result.isConfirmed) { 
-                var data = posttext.getData();
-                debugger;
-                var obj = {
-                    "ID" : $("#ID").val(),  
-                    "PostTypeID": 1,
-                    "PostAccountID": 10001,
-                    "PostCategoryID" :  $("#PostCategoryID").val(),  
-                    "PostLayoutID": 1,
-                    "PostPublishStatusID": 1,
-                    "PostCommentStatusID": $("#PostCommentStatusID").val(),             
-                    "Active":  $("#Active").val(),      
-                    "Url": "",
-                    "Photo": $("#Photo").val(),     
-                    "Video": "",
-                    "Name": $("#Name").val(),       
-                    "Description": $("#Description").val(),     
-                    "Text": data,       
-                    "PublishedTime": $("#PublishedTime").val(),        
-                    "OpenTime": $("#OpenTime").val(),        
-                    "ClosedTime": $("#ClosedTime").val(),        
-                    "EventAddress": $("#EventAddress").val(),  
-                }
-                $.ajax({
-                    url: "/post/api/edit",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(obj),
-                    success: function (responseData) {
-                       
-                        Swal.fire({
-                            icon: 'success',
-                            title: '<strong>Đã chỉnh sửa Event!</strong>',
-                            showCloseButton: true,
-                            focusConfirm: false,
-                        }).then(resultt => {
-                                if (resultt.isConfirmed) {
-                                    location.reload();
-                                }
-                            });
-                        
-                    }
-                })
-            } else if (result.isDenied) {
+         var resultSubmit = true; 
+             
+            if( $("#Name").val().trim() == "" ||  $("#Name").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Name không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }  
 
+            if( $("#PublishedTime").val() == "" ||  $("#PublishedTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Published Time không thể bị bỏ trống',
+                showCloseButton: true
+                });
             }
-        })
+
+            if( $("#OpenTime").val() == "" ||  $("#OpenTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Open Time không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+            if( $("#ClosedTime").val() == "" ||  $("#ClosedTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Closed Time không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+            if( $("#EventAddress").val().trim() == "" ||  $("#EventAddress").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Event Address không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+            if(resultSubmit) {
+                    Swal.fire({
+                icon: 'question',
+                title: 'Confirm?',
+                text: 'Bạn có muốn sửa event ?',
+                showCloseButton: true,
+                showCancelButton: true
+            }).then((result) => {
+                if (result.isConfirmed) { 
+                    var data = posttext.getData();
+                    debugger;
+                    var obj = {
+                        "ID" : $("#ID").val(),  
+                        "PostTypeID": 1,
+                        "PostAccountID": 10001,
+                        "PostCategoryID" :  $("#PostCategoryID").val(),  
+                        "PostLayoutID": 1,
+                        "PostPublishStatusID": 1,
+                        "PostCommentStatusID": $("#PostCommentStatusID").val(),             
+                        "Active":  $("#Active").val(),      
+                        "Url":  $("#Url").val(),
+                        "Photo": $("#Photo").val(),     
+                        "Video": "",
+                        "Name": $("#Name").val(),       
+                        "Description": $("#Description").val(),     
+                        "Text": data,       
+                        "PublishedTime": $("#PublishedTime").val(),        
+                        "OpenTime": $("#OpenTime").val(),        
+                        "ClosedTime": $("#ClosedTime").val(),        
+                        "EventAddress": $("#EventAddress").val(),  
+                    }
+                    $.ajax({
+                        url: "/post/api/edit",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(obj),
+                        success: function (responseData) {
+                       
+                            Swal.fire({
+                                icon: 'success',
+                                title: '<strong>Đã chỉnh sửa Event!</strong>',
+                                showCloseButton: true,
+                                focusConfirm: false,
+                            }).then(resultt => {
+                                    if (resultt.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                        
+                        }
+                    })
+                } else if (result.isDenied) {
+
+                }
+            })
+            }
+
+
+
+        
     }
 
     async function GetDetailItem(id) {
@@ -373,7 +440,7 @@
         debugger;
         $("#ID").val(obj[0].Id);
 		$("#Name").val(obj[0].Name);
-
+		$("#Url").val(obj[0].Url); 
 		$("#PostCommentStatusID").val(obj[0].PostCommentStatusId);
 		$("#Photo").val(obj[0].Photo); 
 		$("#Description").val(obj[0].Description);

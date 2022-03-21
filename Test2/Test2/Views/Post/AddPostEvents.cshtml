@@ -128,7 +128,7 @@
                     
                     <div class="row modal-row-menu">
                         <div class="col-md-3 ">
-                        <label for="Content">Content</label>
+                        <label for="Content">Content<span style="color:red">*</span></label>
                         </div>
                         <div class="col-md-9">
                             <div id="Content" class="Text"></div>
@@ -205,15 +205,67 @@
 
             var resultSubmit = true; 
              
-            //if( $("#CreatedTime").val() == "" ||  $("#CreatedTime").val() == null) {
-            //    resultSubmit = false;
-            //    Swal.fire({
-            //    icon: 'warning',
-            //    title: 'Cần điền đầy đủ thông tin',
-            //    text: 'CreatedTime không thể bị bỏ trống?',
-            //    showCloseButton: true
-            //    });
-            //}
+            if( $("#Name").val().trim() == "" ||  $("#Name").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Name không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+             
+
+            if(posttext.getData().trim() == "" ||  posttext.getData().val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Content không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+            if( $("#PublishedTime").val() == "" ||  $("#PublishedTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Published Time không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+            if( $("#OpenTime").val() == "" ||  $("#OpenTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Open Time không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+            if( $("#ClosedTime").val() == "" ||  $("#ClosedTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Closed Time không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
+
+            if( $("#EventAddress").val().trim() == "" ||  $("#EventAddress").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin!',
+                text: 'Event Address không thể bị bỏ trống',
+                showCloseButton: true
+                });
+            }
 
             // check thoả mãn các điều kiện trước khi tạo
             if(resultSubmit) {

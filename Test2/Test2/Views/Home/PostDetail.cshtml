@@ -2,42 +2,125 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-}
-<!DOCTYPE html>
-<html lang="en">
+    ViewData["Title"] = "Chi tiết";
+} 
+      
+<script>
+    $( document ).ready(function() { 
+    if(@ViewBag.Post[0].PostCategoryId == 3)
+        {
+            const g1_today = new Date();
+             var g2_open_time = new Date('@ViewBag.Post[0].OpenTime ');
+             var g3_close_time = new Date('@ViewBag.Post[0].ClosedTime ');
+         
+             //sắp diễn ra
+             if (g1_today.getTime() < g2_open_time.getTime()) {
+                $('#event-button-click-1').show();
+                //$('#event-button-click-1').show();
+             } 
+             // đã kết thúc
+             else if(g1_today.getTime() > g3_close_time.getTime() ) {
+                 $('#event-button-click-end').show();
+             } 
+             // đang diễn ra
+             else {
+                 $('#event-button-click-ongoing').show();
+             } 
+        } 
+    }); 
+</script>
+<script>  
+    function joinEvent() {
+        Swal.fire({
+                icon: 'question',
+                title: 'Bạn có muốn đăng kí sự kiện?',
+                text: 'Hãy nhập email của bạn',
+                 input: 'email',
+                showCloseButton: true,
+                showCancelButton: true
+            }).then((result) =>{
+                if (result.isConfirmed) { 
+                    
+                    debugger;
+                    $.ajax({
+                        type: "POST",
+                        url: "EventRequest/receiveData",
+                        dataType: "json",
+                        data: {
+                            o: "namanhnguyen108@gmail.com"
+                        },
+                        success: function (data) {
+                           alert('Success');
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+                        },
+                        error: function () {
+                         alert('Error');
+                        }
+                    });
 
 
-    <!-- Latest compiled and minified JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                }
+            });
+    }
 
 
+    function addNewRequest() {
+        debugger;
+        var obj = {
+        "PostId": '@ViewBag.Post[0].Id', 
+        "AccountId": 2,
+        "Active": 1,
+        "EventRequestStatusId": 1, 
+        "Name": '@ViewBag.Post[0].Name',
+        "Email": $('.swal2-input').val(),
+        "Phone" : "8411",   
+        "Description" : '@ViewBag.Post[0].Description',  
+        "CreatedTime": '@ViewBag.Post[0].CreatedTime', 
+        "Account" : "",
+        "EventRequestStatus" : "",
+        "Post" : "",
 
+    }
+    //$.ajax({
+    //    url: "/EventRequest/api/add",
+    //    type: "POST",
+    //    contentType: "application/json",
+    //    data: JSON.stringify(obj),
+    //    success: function (responseData) {
+    //        Swal.fire({
+    //            title: '<strong>Đăng kí tham gia thành công!</strong>',
+    //            icon: 'success',
+    //            showCloseButton: true, 
+    //        });
+    //    }
+    //});
+    $.ajax({
+        url: "https://localhost:5001/EventRequest/api/add",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(obj),
+        success: function (responseData) {
+            Swal.fire({
+                title: '<strong>Đã tạo menu mới thành công!</strong>',
+                icon: 'success',
+                showCloseButton: true,
+                focusConfirm: false,
+            }).then(resultt => {
+                if (resultt.isConfirmed) {
+                    window.location.href = "/menu/admin/list";
+                }
+            });
+        }
+        });
+    }
 
-</head>
-
-<body>
+</script>
+ 
     <div>
 
         <div class="container">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h1>@ViewBag.Post[0].Name</h1>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                <h1 id="title-name">@ViewBag.Post[0].Name</h1>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <p>@ViewBag.Post[0].CreatedTime</p>
@@ -57,17 +140,17 @@
 
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <span style="float:right; ">
-                                    <button id="event-button-click-1" onClick="RequestJoinEvent()" class="btn btn-primary button-76 buttonCategoryOfNews button-join-event" style="display : none">Đăng ký tham gia sự kiện</button>
+                                    <button id="event-button-click-1" onClick="joinEvent()" class="btn btn-primary button-76 buttonCategoryOfNews button-join-event" style="display : none">Đăng ký tham gia sự kiện</button>
                                     <button id="event-button-click-3" class="btn btn-primary button-76 buttonCategoryOfNews" style="display : none;">Bạn đã đăng ký tham gia sự kiện</button>
-                                    <button id="event-button-click-2" class="btn btn-primary button-76 buttonCategoryOfNews button-can-not-join-event"  style="display : none">Sự kiện đã kết thúc</button>
+                                    <button id="event-button-click-ongoing" class="btn btn-primary button-76 buttonCategoryOfNews button-on-going-event"  style="display : none">Sự kiện đang diễn ra</button>
+                                    <button id="event-button-click-end" class="btn btn-primary button-76 buttonCategoryOfNews button-can-not-join-event"  style="display : none">Sự kiện đã kết thúc</button>
                                 </span>
 
                             </div>
 
 
                         @*</div>*@
-            }
-
+            } 
             
         </div>
 
@@ -84,10 +167,7 @@
 
 
     </div>
-
-</body>
-
-</html>
+     
 
 <!-- script 1-->
 
@@ -152,10 +232,7 @@
             -webkit-user-select: none;
             touch-action: manipulation;
         }
-
-            .button-76:hover {
-                box-shadow: none;
-            }
+         
 
         @@media (min-width: 1024px) {
             .button-76 {
@@ -228,188 +305,3 @@
 
         /* Responsive end */
     </style>
-
-                <script>
-                            // script for loading data to page EventDetails
-                            //debugger;
-                            // button-event starts
-                            const g1_today = new Date();
-                            var g2_open_time = new Date('@ViewBag.Post[0].OpenTime ');
-                            var g3_close_time = new Date('@ViewBag.Post[0].ClosedTime ');
-
-                            // sắp diễn ra
-                            if (g1_today.getTime() < g2_open_time.getTime()) {
-                                $('#event-button-2').show();
-                                //$('#event-button-click-1').show();
-
-                                if (@ViewBag.AlreadyRegisterEvent == 0 ) {
-                                    $('#event-button-click-1').show();
-                                }
-                                else if (@ViewBag.AlreadyRegisterEvent == 1) {
-                                    $('#event-button-click-3').show();
-                                    $('#event-button-click-1').hide();
-                                }
-                            }
-                            // đã kết thúc
-                            else if (g3_close_time.getTime() < g1_today.getTime()) {
-                                $('#event-button-click-2').show();
-                                $('#event-button-3').show();
-                            }
-                            // đang diễn ra
-                            else if (g2_open_time.getTime() < g1_today.getTime() && g1_today.getTime() < g3_close_time.getTime()) {
-                                $('#event-button-1').show();
-                                //$('#event-button-click-1').show();
-                                if (@ViewBag.AlreadyRegisterEvent == 0) {
-                                    $('#event-button-click-1').show();
-                                }
-                                else if (@ViewBag.AlreadyRegisterEvent == 1) {
-                                    $('#event-button-click-3').show();
-                                    $('#event-button-click-1').hide();
-                                }
-                            }
-                            // bad habbit
-                            else {
-                                console.log("bad request 404");
-
-                                $('#event-button-click-2').show();
-                                $('#event-button-3').show();
-                            }
-
-                            // button-event Ends
-
-                             
-
-                            // if data is null then data is equal to 'N/A' : Start
-                            var name_title = '@Html.Raw(@ViewBag.Post[0].Name)';
-                            if(name_title == "") name_title = 'N/A';
-                            $('#title-name').html(name_title);
-
-                            var name_location ='@Html.Raw(@ViewBag.Post[0].EventAddress)';
-                            if(name_location == "") name_location = 'Chưa có thông tin về địa điểm';
-                            $('#name-location').html(name_location);
-                            // if data is null then data is equal to 'N/A' : End
-
-
-                            // button click tham gia sự kiện : start
-                            function RequestJoinEvent() {
-                                  const swalWithBootstrapButtons = Swal.mixin({
-                      customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                      },
-                      buttonsStyling: false
-                    })
-
-                    swalWithBootstrapButtons.fire({
-                      title: 'Sự kiện : ' + name_title,
-                      text: "Bạn có muốn đăng kí tham gia sự kiện?",
-                      icon: 'warning',
-                      showCancelButton: true,
-                      confirmButtonText: 'Đồng ý!' ,
-                      cancelButtonText: 'Không đồng ý',
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        swalWithBootstrapButtons.fire(
-                          'Deleted!',
-                          'Your file has been deleted.',
-                          'success'
-                        )
-                      } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.success
-                      ) {
-                        swalWithBootstrapButtons.fire(
-                          'Đăng kí thành công',
-                          'Bạn đã đăng kí tham gia sự kiện thành công',
-                          'success'
-                        )
-                      }
-                    })
-                            }
-
-                            // button click tham gia sự kiện : end
-
-
-                            // Video
-
-                </script>
-
-
-<!-- Script2 -->
-
-
-    <script>
-        function RequestJoinEvent() {
-            var currentUserId = @ViewBag.UserID;
-            var timestampCurrentTime = new Date().getTime();
-            if (currentUserId == 0 || currentUserId == undefined) {
-                Swal.fire({
-                    title: 'Xin vui lòng đăng nhập.',
-                    type: 'warning',
-                    html: '<h5>Vui lòng nhấn vào <a href="/dang-nhap">đây</a> để đăng nhập</h5>'
-                });
-                return;
-            }
-            //debugger;
-            var updatingObj = {
-                "eventRequestStatusId": 1000002,
-                "accountId": currentUserId,
-                "postId": @ViewBag.Post[0].Id,
-                "name": '@Html.Raw(@ViewBag.Post[0].Name)',
-                'email': '@ViewBag.Email',
-                'phone': '@ViewBag.UserPhone',
-                "active": 1,
-                'description': '',
-                "createdTime": '',
-            };
-            updatingObj.createdTime = new Date();
-            //console.log(updatingObj);
-            var eventName = '@Html.Raw(@ViewBag.Post[0].Name)';
-
-            var confirmTitle = eventName;
-
-            Swal.fire({
-                title: 'Xác nhận gửi yêu cầu tham gia sự kiện',
-                html: confirmTitle,
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#443',
-                confirmButtonText: 'Xác nhận!',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.value) {
-                    //debugger;
-                    $.ajax({
-                        url: "/EventRequest/api/add",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(updatingObj),
-                        success: function (responseData) {
-                            if (responseData.status == 201 && responseData.message === "CREATED") {
-                                Swal.fire({
-                                    title: 'Thành công!',
-                                    type: 'success',
-                                    html: 'Bạn đã đăng ký tham gia sự kiện thành công!',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK!',
-                                }).then((result) => {
-                                    window.location.reload();
-                                })
-                            }
-                            else {
-                                Swal.fire(
-                                    'Thất bại!',
-                                    'Bạn chưa gửi được yêu cầu tham gia sự kiện.',
-                                    'error',
-                                )
-                            }
-                        }
-                    })
-
-                }
-            })
-        }
-
-
-    </script>

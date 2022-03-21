@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Menu - Admin";
+    ViewData["Title"] = "Menu";
     Layout = "../Shared/_Layout - Admin"; 
     //Layout = null;
 }
@@ -273,49 +273,94 @@
 <script> 
     
     function Submit() {
-        Swal.fire({
-            icon: 'question',
-            title: 'Confirm?',
-            text: 'Bạn có muốn sửa menu ?',
-            showCloseButton: true,
-            showCancelButton: true
-        }).then((result) => {
-            if (result.isConfirmed) { 
-                var obj = {
-                    "ID": $("#menuId").val(), 
-                    "ParentID": $("#ParentID").val(), 
-                    "Active": $("#Active").val(),
-                    "Name": $("#Name").val(),
-                    "Url": $("#Url").val(),
-                    "Priority" : 100,   // set mặc định cho priority
-                    "GroupID" : 1,  // set mặc định cho groupid
-                    "Description": $("#Description").val(), 
-                    "CreatedTime": $("#CreatedTime").val(),
-                }
-                $.ajax({
-                    url: "/menu/api/edit",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(obj),
-                    success: function (responseData) {
-                       
-                        Swal.fire({
-                            icon: 'success',
-                            title: '<strong>Đã chỉnh sửa Menu!</strong>',
-                            showCloseButton: true,
-                            focusConfirm: false,
-                        }).then(resultt => {
-                                if (resultt.isConfirmed) {
-                                    location.reload();
-                                }
-                            });
-                        
-                    }
-                })
-            } else if (result.isDenied) {
+        // verify thỏa mãn điều kiện trước khi tạo 
+            var resultSubmit = true;
 
+            // mặc định nếu k điền thì parentid sẽ mang giá trị 0
+            if( $("#ParentID").val().trim() == "" ||  $("#ParentID").val().trim() == null) {
+                $("#ParentID").val("0");
             }
-        })
+
+            if( $("#Name").val().trim() == "" ||  $("#Name").val().trim() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'Name không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+
+            if( $("#Url").val().trim() == "" ||  $("#Url").val().trim() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'Url không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+             
+            if( $("#CreatedTime").val == "" ||  $("#CreatedTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'CreatedTime không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+
+            if(resultSubmit) { 
+                Swal.fire({
+                icon: 'question',
+                title: 'Confirm?',
+                text: 'Bạn có muốn sửa menu ?',
+                showCloseButton: true,
+                showCancelButton: true
+            }).then((result) => {
+                if (result.isConfirmed) { 
+                    var obj = {
+                        "ID": $("#menuId").val(), 
+                        "ParentID": $("#ParentID").val(), 
+                        "Active": $("#Active").val(),
+                        "Name": $("#Name").val(),
+                        "Url": $("#Url").val(),
+                        "Priority" : 100,   // set mặc định cho priority
+                        "GroupID" : 1,  // set mặc định cho groupid
+                        "Description": $("#Description").val(), 
+                        "CreatedTime": $("#CreatedTime").val(),
+                    }
+                    $.ajax({
+                        url: "/menu/api/edit",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(obj),
+                        success: function (responseData) {
+                       
+                            Swal.fire({
+                                icon: 'success',
+                                title: '<strong>Đã chỉnh sửa Menu!</strong>',
+                                showCloseButton: true,
+                                focusConfirm: false,
+                            }).then(resultt => {
+                                    if (resultt.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                        
+                        }
+                    })
+                } else if (result.isDenied) {
+
+                }
+            })
+            }
+
+        
     }
 
     async function GetDetailItem(id) {
