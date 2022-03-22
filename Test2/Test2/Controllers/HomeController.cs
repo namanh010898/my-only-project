@@ -270,6 +270,9 @@ namespace Daihoc_FPT_News.Controllers
             ViewBag.MenuListFooter = NovaticUtil.ChangeMenuLanguage(MenuListFooter, lang);
             return View();
         }
+
+        [HttpGet]
+        [Route("lien-he")]
         public async Task<IActionResult> Contact()
         {
             string lang = "vi";
