@@ -51,7 +51,7 @@
     <script src="~/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Daihoc_FPT_News.styles.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/Daihoc_FPT_News.styles.css" asp-append-version="true" />*@
 
     <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -61,6 +61,32 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!--   Core JS Files   -->
+  <script src="~/assets/js/core/jquery.min.js"></script>
+  <script src="~/assets/js/core/popper.min.js"></script>
+  <script src="~/assets/js/core/bootstrap.min.js"></script>
+  @*<script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>*@
+  <!--  Google Maps Plugin    -->
+  @*<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>*@
+  <!-- Chart JS -->
+  <script src="~/assets/js/plugins/chartjs.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="~/assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+  @*<script src="~/assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>*@
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Datatable -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script> 
+
+
+
+    <!-- sweetalert 2-->
+    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <style>
@@ -182,32 +208,7 @@
 </div>
 </div>
 </header>
-
-    <!-- header auto genarate -->
-    @*
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Daihoc_FPT_News</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>*@
-
-    <!-- Header : End -->
+ 
 
 
     <div id="wrapper-content-fptnews-layout">
@@ -312,7 +313,7 @@
     
 <a data-scroll href="#header" id="scroll-to-top"><i class="arrow_carrot-up"></i></a>
 
-<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+@*<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>*@
 
 <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
 
@@ -343,3 +344,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

@@ -115,84 +115,7 @@
     }
 
 </script>
-<script>  
 
-
-     function commentSm() {
-         debugger;
-         if($("#commentContent").val().trim() != "" ) {
-             
-             var dt = new Date();
-         var name = "";
-         var email = "";
-         // set all name = Annomymous
-         if (true) {
-              name = "Annomymous";
-              email = "";
-         } 
-         else {
-             name = '@ViewBag.CurrentUsername';
-             email = '@ViewBag.Email';
-         }
-
-        var obj = {
-                "id": 0,
-                "postID": '@ViewBag.Post[0].Id',
-                "accountID":"10018",
-                "active": 1,
-                "approve": 0,
-                "name": name,
-                "description": "",
-                "email": email,
-                "text": $("#commentContent").val(),
-                "website": "",
-                "createdTime": dt,
-         };
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/Comment/api/Add",
-            data: JSON.stringify(obj),
-            success: function (responseData) {
-                //debugger;
-                //responseData = JSON.parse(responseData)
-                if (responseData.status == 201 && responseData.message === "CREATED") {
-                    localStorage.setItem("currentLoggedInUser", JSON.stringify(responseData.data[0]));
-                    Swal.fire({
-                        title: 'Gửi bình luận thành công!',
-                        footer : 'Bình luận của bạn đã được gửi lên phía quản trị xét duyệt'
-                        type: 'success',
-                        showCancelButton: false,
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#commentContent").val("");
-                        window.location.href = "";
-                    })
-
-                }
-            },
-            error: function (e) {
-                //console.log(e.message);
-                //Swal.fire(
-                //    'Bình luận thất bại',
-                //    'Vui lòng điền đầy đủ thông tin!',
-                //    'error'
-                //);
-                console.log(e);
-            }
-        });
-
-         } else {
-             Swal.fire(
-                    'Bình luận thất bại',
-                    'Vui lòng điền nội dung bình luận!',
-                    'error'
-                );
-         }
-         
-         
-    }
-</script>
  
     <div>
 
@@ -390,3 +313,4 @@
 
         /* Responsive end */
     </style>
+
