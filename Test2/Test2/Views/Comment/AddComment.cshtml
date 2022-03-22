@@ -4,7 +4,7 @@
 @{
 }
 @{
-    ViewData["Title"] = "Tạo mới Menu";
+    ViewData["Title"] = "Tạo mới Comment";
     Layout = "_Layout - Admin";
 }
 <!DOCTYPE html>
@@ -45,30 +45,29 @@
             <div class="modal-content">
                 <div class="modal-header bg-gradient-info">
                     <h4 class="modal-title">
-                        <i class="fa fa-edit"></i> <span id="updateTitle">Thêm menu mới</span>
-                    </h4>
+                        <i class="fa fa-edit"></i> <span id="updateTitle">Thêm comment mới</span>
+                    </h4> 
                 </div>
                 <div class="modal-body">
                     <div class="container" style="display: contents"> 
                 
-                    <h3>Menu</h3>
+                    <h3>Comment</h3>
                     <i>Lưu ý điền đầy đủ các thông tin có dấu <span style="color:red">*</span></i>
                     <div class="row modal-row-menu">
                         <div class="col-md-3 ">
-                        <label for="menuId">ID(Tự động)</label><span style="color:red">*</span>
+                        <label for="Id">ID(Tự động)</label><span style="color:red">*</span>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" id="menuId" class="fullwidth"  disabled />
+                            <input type="text" id="Id" class="fullwidth"  disabled />
                         </div>
                     </div>
 
                     <div class="row modal-row-menu">
                         <div class="col-md-3 ">
-                        <label for="ParentID">ParentID</label>
-                        <p><i>giá trị mặc định : 0</i></p>
+                        <label for="PostID">PostID</label><span style="color:red">*</span> 
                         </div>
                         <div class="col-md-9">
-                            <input type="text" id="ParentID" class="fullwidth" />
+                            <input type="text" id="PostID" class="fullwidth" />
                         </div>
                     </div>
 
@@ -91,15 +90,7 @@
                         <div class="col-md-9">
                             <input type="text" id="Name"  class="fullwidth" />
                         </div>
-                    </div>  
-                    <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="Url">Url</label><span style="color:red">*</span>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" id="Url" class="fullwidth"  />
-                        </div>
-                    </div> 
+                    </div>   
                     <div class="row modal-row-menu">
                         <div class="col-md-3 ">
                         <label for="Description">Description</label>
@@ -108,6 +99,15 @@
                             <input type="text" id="Description" class="fullwidth"   />
                         </div>
                     </div>
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Text">Text</label><span style="color:red">*</span> 
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Text" class="fullwidth"   />
+                        </div>
+                    </div> 
+
                     <div class="row modal-row-menu">
                         <div class="col-md-3 ">
                         <label for="CreatedTime">Published Time<span style="color:red">*</span></label>
@@ -137,49 +137,49 @@
             debugger;
             var resultSubmit = true;
 
-            if( $("#ParentID").val() == "" ||  $("#ParentID").val() == null) {
-                $("#ParentID").val("0");
-            }
+            //if( $("#ParentID").val() == "" ||  $("#ParentID").val() == null) {
+            //    $("#ParentID").val("0");
+            //}
 
-            if( $("#Name").val() == "" ||  $("#Name").val() == null) {
-                resultSubmit = false;
-                Swal.fire({
-                icon: 'warning',
-                title: 'Cần điền đầy đủ thông tin',
-                text: 'Name không thể bị bỏ trống?',
-                showCloseButton: true,
-                showCancelButton: true
-                });
-            }
+            //if( $("#Name").val() == "" ||  $("#Name").val() == null) {
+            //    resultSubmit = false;
+            //    Swal.fire({
+            //    icon: 'warning',
+            //    title: 'Cần điền đầy đủ thông tin',
+            //    text: 'Name không thể bị bỏ trống?',
+            //    showCloseButton: true,
+            //    showCancelButton: true
+            //    });
+            //}
 
-            if( $("#Url").val() == "" ||  $("#Url").val() == null) {
-                resultSubmit = false;
-                Swal.fire({
-                icon: 'warning',
-                title: 'Cần điền đầy đủ thông tin',
-                text: 'Url không thể bị bỏ trống?',
-                showCloseButton: true,
-                showCancelButton: true
-                });
-            }
+            //if( $("#Url").val() == "" ||  $("#Url").val() == null) {
+            //    resultSubmit = false;
+            //    Swal.fire({
+            //    icon: 'warning',
+            //    title: 'Cần điền đầy đủ thông tin',
+            //    text: 'Url không thể bị bỏ trống?',
+            //    showCloseButton: true,
+            //    showCancelButton: true
+            //    });
+            //}
              
-            if( $("#CreatedTime").val() == "" ||  $("#CreatedTime").val() == null) {
-                resultSubmit = false;
-                Swal.fire({
-                icon: 'warning',
-                title: 'Cần điền đầy đủ thông tin',
-                text: 'CreatedTime không thể bị bỏ trống?',
-                showCloseButton: true,
-                showCancelButton: true
-                });
-            }
+            //if( $("#CreatedTime").val() == "" ||  $("#CreatedTime").val() == null) {
+            //    resultSubmit = false;
+            //    Swal.fire({
+            //    icon: 'warning',
+            //    title: 'Cần điền đầy đủ thông tin',
+            //    text: 'CreatedTime không thể bị bỏ trống?',
+            //    showCloseButton: true,
+            //    showCancelButton: true
+            //    });
+            //}
 
             // check thoả mãn các điều kiện trước khi tạo
             if(resultSubmit) {
                 Swal.fire({
                 icon: 'question',
                 title: 'Confirm?',
-                text: 'Bạn có muốn tạo mới menu '+ $("#Name").val() +' không?',
+                text: 'Bạn có muốn tạo mới comment không?',
                 showCloseButton: true,
                 showCancelButton: true
             }).then((result) => {
@@ -199,31 +199,29 @@
                     //}
 
                     var obj = {
-                        "ParentId": $("#ParentID").val(), 
+                        "PostID": $("#PostID").val(), 
                         "Active": $("#Active").val(),
                         "Name": $("#Name").val(),
-                        "Url": $("#Url").val(),
-                        "Priority" : 100,   // set mặc định cho priority
-                        "GroupId" : 1,  // set mặc định cho groupid
                         "Description": $("#Description").val(), 
+                        "Text": $("#Text").val(), 
                         "CreatedTime": $("#CreatedTime").val(),
 
                     }
                     debugger;
                     $.ajax({
-                        url: "/menu/api/add",
+                        url: "/comment/api/add",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify(obj),
                         success: function (responseData) {
                             Swal.fire({
-                                title: '<strong>Đã tạo menu mới thành công!</strong>',
+                                title: '<strong>Đã tạo comment mới thành công!</strong>',
                                 icon: 'success',
                                 showCloseButton: true,
                                 focusConfirm: false,
                             }).then(resultt => {
                                 if (resultt.isConfirmed) {
-                                    window.location.href = "/menu/admin/list";
+                                    window.location.href = "/comment/admin/list";
                                 }
                             });
                         }

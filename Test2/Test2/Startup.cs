@@ -89,7 +89,7 @@ namespace Daihoc_FPT_News
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromSeconds(3600);
             });
-            //services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
             //services.AddScoped<IPostTagRepository, PostTagRepository>();
 

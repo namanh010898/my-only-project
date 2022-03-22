@@ -21,23 +21,21 @@ namespace Daihoc_FPT_News.Controllers
         private readonly ILogger<HomeController> _logger;
         IMenuRepository repositoryMenu;
         IPostRepository repositoryPost;
+        ICommentRepository repositoryComment;
         public HomeController(ILogger<HomeController> logger,
             ICacheHelper cacheHelper,
             IMenuRepository _repositoryMenu,
-            IPostRepository _repositoryPost
+            IPostRepository _repositoryPost,
+            ICommentRepository _repositoryComment
             ) : base(cacheHelper)
         {
             repositoryMenu = _repositoryMenu;
             repositoryPost = _repositoryPost;
+            repositoryComment = _repositoryComment;
             _logger = logger;
-
-            // upload file, anh : chua xu lo
-            //_env = env;
-            //_dir = _env.ContentRootPath + "\\wwwroot\\files\\upload\\common\\";
+             
         }
-
-        // Trang của Nam Anh : Start
-
+          
         // trang homepage
         [HttpGet]
         [Route("")]
@@ -171,6 +169,9 @@ namespace Daihoc_FPT_News.Controllers
             var id = split[0];
             var Post = await repositoryPost.Detail(Convert.ToInt32(id));
             ViewBag.Post = Post;
+            var ListAllComment = await repositoryComment.ListPagingPost(Int32.Parse(id), 1, 999);
+            ViewBag.ListAllComment = ListAllComment;
+            ViewBag.ListAllCommentCount = ListAllComment.Count;
             return View();
         }
         [HttpGet]
