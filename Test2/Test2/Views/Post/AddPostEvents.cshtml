@@ -214,18 +214,7 @@
                 showCloseButton: true
                 });
             }
-
              
-
-            if(posttext.getData().trim() == "" ||  posttext.getData().val() == null) {
-                resultSubmit = false;
-                Swal.fire({
-                icon: 'warning',
-                title: 'Cần điền đầy đủ thông tin!',
-                text: 'Content không thể bị bỏ trống',
-                showCloseButton: true
-                });
-            }
 
             if( $("#PublishedTime").val() == "" ||  $("#PublishedTime").val() == null) {
                 resultSubmit = false;
