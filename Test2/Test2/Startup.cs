@@ -133,7 +133,7 @@ namespace Daihoc_FPT_News
 
             //services.AddScoped<IOrganizationTypeRepository, OrganizationTypeRepository>();
 
-            //services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IContactRepository, ContactRepository>();
             //services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 
             //services.AddScoped<IEnterpriseTypeRepository, EnterpriseTypeRepository>();

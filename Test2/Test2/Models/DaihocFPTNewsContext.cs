@@ -1800,10 +1800,11 @@ namespace Daihoc_FPT_News.Models
             });
 
             modelBuilder.Entity<Contact>(entity =>
-            {
-                entity.HasNoKey();
+            { 
 
                 entity.ToTable("Contact");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AccountId).HasColumnName("AccountID");
 
@@ -1815,9 +1816,9 @@ namespace Daihoc_FPT_News.Models
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ID");
+                //entity.Property(e => e.Id)
+                //    .ValueGeneratedOnAdd()
+                //    .HasColumnName("ID");
 
                 entity.Property(e => e.Name)
                     .IsRequired()

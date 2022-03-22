@@ -1,0 +1,349 @@
+﻿@{
+    ViewData["Title"] = "Thông tin liên hệ";
+    Layout = "../Shared/_Layout - Admin"; 
+    //Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Latest compiled and minified JS -->
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+ 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+    
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                aLengthMenu: [
+                [3, 5, 10, 20, 50, -1],
+                [3, 5, 10, 20, 50, 'Tất cả']
+            ]
+            });
+        });
+    </script>
+    <style>
+        .modal-footer .btn + .btn {
+            margin-bottom: 10px;
+        }
+
+        #example_wrapper {
+            display : block;
+        }
+
+        /* Giao diện modal */
+        input.fullwidth {
+            width : 100%;
+        }
+
+        #closing-modal-black:hover {
+            color :#333 !important;
+        }
+
+        .modal-row-menu {
+            margin-top : 13px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <button onclick="window.location.href='/contact/add/contact'" style="width:100px;height:40px;background-color:lightgreen;border-color:white;float:right;margin-bottom:1%;">Add</button>
+    <table id="example" class="display" style="width:100%;">
+        <thead>
+            <tr>
+                <th>ID</th> 
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th> 
+                <th>Chi tiết</th>
+                <th>Xóa</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < ViewBag.ContactCount; i++)
+            {
+                <tr>
+                    <td>@ViewBag.listContact[i].Id</td>
+                    <td>@ViewBag.listContact[i].Name</td>
+                    <td>@ViewBag.listContact[i].Email</td>
+                    <td>@ViewBag.listContact[i].Phone</td> 
+                    <td><button onclick="Edit(@ViewBag.listContact[i].Id)" data-toggle="modal" data-target="#modal-id">Sửa</button></td>
+                    <td><button onclick="DeleteItem(@ViewBag.listContact[i].Id)">Xóa</button></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>ID</th> 
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th> 
+                <th>Chi tiết</th>
+                <th>Xóa</th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    <div class="modal fade" id="modal-id">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-info">
+                </div>
+                <div class="modal-body">
+                    <div class="container" style="display: contents"> 
+                
+                    <h3>liên hệ</h3>
+                    <i>Lưu ý điền đầy đủ các thông tin có dấu <span style="color:red">*</span></i>
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Id">ID(Tự động)</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Id" class="fullwidth"  disabled />
+                        </div>
+                    </div>
+                      
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Active">Active</label><span style="color:red">*</span> 
+                        </div>
+                        <div class="col-md-9">
+                            <select id="Active" disabled>
+                                <option value="1">Public</option>
+                                <option value="0">Private</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Name">Name</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Name"  class="fullwidth" />
+                        </div>
+                    </div>
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Email">Email</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Email" class="fullwidth"  />
+                        </div>
+                    </div> 
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Phone">Phone</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Phone" class="fullwidth"  />
+                        </div>
+                    </div> 
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="Description">Description</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="Description" class="fullwidth"   />
+                        </div>
+                    </div>
+                    <div class="row modal-row-menu">
+                        <div class="col-md-3 ">
+                        <label for="CreatedTime">Published Time<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="datetime-local" id="CreatedTime" />
+                        </div>
+                    </div> 
+                      
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="closing-modal-black"
+                            data-dismiss="modal" style="display : contents">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnUpdateItem" onclick="Submit()">
+                        Save
+                        changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    
+    async function Edit(id) {  
+        // show modal details and load data by id
+        $("#modal-id").show();
+        let obj = await getItemByID(id);
+        debugger;
+		 $("#Id").val(obj[0].Id);
+		 $("#Email").val(obj[0].Email);
+		 $("#Active").val(obj[0].Active);
+		 $("#Name").val(obj[0].Name);
+		 $("#Phone").val(obj[0].Phone);
+		 $("#Description").val(obj[0].Description);
+		 $("#CreatedTime").val(obj[0].CreatedTime);
+    }
+
+    async function getItemByID(id) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "/contact/api/detail/" + id ,
+                type: "GET",
+                async: 'true',
+                contentType: "application/json",
+                success: function (responseData) {
+                    debugger;
+                    Item = JSON.parse(responseData);
+                    resolve(Item)
+                },
+                error: function (e) {
+                    reject(e);
+                }
+            });
+        })
+         
+        }
+
+
+        async function DeleteItem(id) {
+        debugger;
+        Swal.fire({
+            icon: 'question',
+            title: 'Bạn có muốn xóa item này?',
+            showCancelButton: true,
+            showCloseButton: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //var obj = await GetDetailItem(id);
+                $.ajax({
+                    url: "/contact/api/delete",
+                    type: 'POST',
+                    contentType: 'application/JSON',
+                    data: JSON.stringify({ "id": id }),
+                    success: function (responseData) { 
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: '<strong>Item đã xóa thành công!</strong>',
+                            showCloseButton: true,
+                            focusConfirm: false,
+                        }).then(resultt => {
+                                if (resultt.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+
+                    }
+                })
+            }
+        })
+    }
+</script>
+<script> 
+    
+    function Submit() {
+        // verify thỏa mãn điều kiện trước khi tạo 
+            var resultSubmit = true;
+
+            // mặc định nếu k điền thì parentid sẽ mang giá trị 0 
+
+            if( $("#Name").val().trim() == "" ||  $("#Name").val().trim() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'Name không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            } 
+             
+            if( $("#CreatedTime").val == "" ||  $("#CreatedTime").val() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'CreatedTime không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+
+            if(resultSubmit) { 
+                Swal.fire({
+                icon: 'question',
+                title: 'Confirm?',
+                text: 'Bạn có muốn sửa liên hệ ?',
+                showCloseButton: true,
+                showCancelButton: true
+            }).then((result) => {
+                if (result.isConfirmed) { 
+                    var obj = {
+                        "Id" :  $("#Id").val(),
+                        "Active": $("#Active").val(),
+                        "Name": $("#Name").val(),
+                        "Email": $("#Email").val(),
+                        "Phone": $("#Phone").val(), 
+                        "Description": $("#Description").val(), 
+                        "CreatedTime": $("#CreatedTime").val(), 
+                    }
+                    $.ajax({
+                        url: "/contact/api/edit",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(obj),
+                        success: function (responseData) {
+                            
+                            Swal.fire({
+                                icon: 'success',
+                                title: '<strong>Đã chỉnh sửa liên hệ!</strong>',
+                                showCloseButton: true,
+                                focusConfirm: false,
+                            }).then(resultt => {
+                                    if (resultt.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                        
+                        }
+                    })
+                } else if (result.isDenied) {
+
+                }
+            })
+            }
+
+        
+    }
+
+    async function GetDetailItem(id) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "/contact/api/detail/" + id,
+                type: "GET",
+                async: 'true',
+                contentType: "application/json",
+                success: function (responseData) {
+                    var Item = JSON.parse(responseData);
+                    resolve(Item)
+                },
+                error: function (e) {
+                    reject(e);
+                }
+            });
+        })
+    }
+</script>
