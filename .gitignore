@@ -15,14 +15,12 @@ Test2/.vs/Daihoc_FPT_News/v17/.suo
 *.txt
 *.editorconfig
 *.cache
-*.pdb
-*.cs
+*.pdb 
 *.cache
 Test2/.vs/Daihoc_FPT_News/v17/.suo
 Test2/Test2/obj/Debug/net5.0/project.razor.json
 Test2/.vs/Daihoc_FPT_News/v17/.suo
-*.dll
-*.cs
+*.dll 
 *.cache
 *.v2
 *.v1
