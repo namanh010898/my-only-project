@@ -484,3 +484,4 @@ C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-onl
 C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Razor\Views\Shared\DaihocFPTNews\_Body_Contact.cshtml.g.cs
 C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Razor\Views\Contact\AdminList.cshtml.g.cs
 C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Razor\Views\Contact\AddContact.cshtml.g.cs
+C:\Users\naman\Downloads\Compressed\namanh108-nguyen-nam-anh-7b2b4cbf6975\my-only-project\Test2\Test2\obj\Debug\net5.0\Razor\Views\EventRequest\AdminList.cshtml.g.cs
