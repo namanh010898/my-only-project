@@ -22,20 +22,22 @@ namespace Daihoc_FPT_News.Controllers
         IMenuRepository repositoryMenu;
         IPostRepository repositoryPost;
         ICommentRepository repositoryComment;
+        IViewStatusRepository repositoryViewStatus;
         public HomeController(ILogger<HomeController> logger,
             ICacheHelper cacheHelper,
             IMenuRepository _repositoryMenu,
             IPostRepository _repositoryPost,
-            ICommentRepository _repositoryComment
+            ICommentRepository _repositoryComment,
+            IViewStatusRepository _repositoryViewStatus
             ) : base(cacheHelper)
         {
             repositoryMenu = _repositoryMenu;
             repositoryPost = _repositoryPost;
             repositoryComment = _repositoryComment;
             _logger = logger;
-             
+            repositoryViewStatus = _repositoryViewStatus;
         }
-          
+
         // trang homepage
         [HttpGet]
         [Route("")]
@@ -51,6 +53,29 @@ namespace Daihoc_FPT_News.Controllers
             List<Menu> MenuListFooter = await repositoryMenu.ListMenuFooter();
             ViewBag.MenuListFooter = MenuListFooter;
 
+            var listAllSlide = await repositoryViewStatus.List();
+            ViewBag.listAllSlide = listAllSlide;
+
+            //Load danh sách slide
+            var dataSlideViewModel = new List<ViewSlideModel>();
+            foreach (var item in listAllSlide)
+            {
+                var objViewModel = new ViewSlideModel();
+
+                var JsonSlide = new List<ViewSlideModel>();
+                JsonSlide = JsonConvert.DeserializeObject<List<ViewSlideModel>>(item.Description);
+
+                objViewModel.alignment = JsonSlide[0].alignment;
+                objViewModel.Image = JsonSlide[0].Image;
+                objViewModel.tieude1 = JsonSlide[0].tieude1;
+                objViewModel.tieude2 = JsonSlide[0].tieude2;
+                objViewModel.tieude3 = JsonSlide[0].tieude3;
+                objViewModel.buttonName = JsonSlide[0].buttonName;
+                objViewModel.buttonUrl = JsonSlide[0].buttonUrl;
+                dataSlideViewModel.Add(objViewModel);
+            }
+
+            ViewBag.DataSlideViewModel = dataSlideViewModel;
             return View();
         }
 

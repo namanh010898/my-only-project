@@ -1,9 +1,5 @@
-
-
-
-
 @{
-    ViewData["Title"] = "Menu";
+    ViewData["Title"] = "Quản lí slide";
     Layout = "../Shared/_Layout - Admin"; 
     //Layout = null;
 }
@@ -57,37 +53,34 @@
 </head>
 
 <body>
-    <button onclick="window.location.href='/menu/add/menu'" style="width:100px;height:40px;background-color:lightgreen;border-color:white;float:right;margin-bottom:1%;">Add</button>
+    <button onclick="window.location.href='/viewstatus/add/viewstatus'" style="width:100px;height:40px;background-color:lightgreen;border-color:white;float:right;margin-bottom:1%;">Add</button>
     <table id="example" class="display" style="width:100%;">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>ParentID</th> 
+                <th>ID</th> 
                 <th>Tên</th>
-                <th>URL</th>
+                <th>Mô tả</th>
                 <th>Chi tiết</th>
                 <th>Xóa</th>
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < ViewBag.MenuCount; i++)
+            @for (int i = 0; i < ViewBag.ViewStatusCount; i++)
             {
                 <tr>
-                    <td>@ViewBag.listMenu[i].Id</td>
-                    <td>@ViewBag.listMenu[i].ParentId</td>
-                    <td>@ViewBag.listMenu[i].Name</td>
-                    <td>@ViewBag.listMenu[i].Url</td> 
-                    <td><button onclick="Edit(@ViewBag.listMenu[i].Id)" data-toggle="modal" data-target="#modal-id">Sửa</button></td>
-                    <td><button onclick="DeleteItem(@ViewBag.listMenu[i].Id)">Xóa</button></td>
+                    <td>@ViewBag.listViewStatus[i].Id</td> 
+                    <td>@ViewBag.listViewStatus[i].Name</td>
+                    <td style="width : 58%">@ViewBag.listViewStatus[i].Description</td> 
+                    <td><button onclick="Edit(@ViewBag.listViewStatus[i].Id)" data-toggle="modal" data-target="#modal-id">Sửa</button></td>
+                    <td><button onclick="DeleteItem(@ViewBag.listViewStatus[i].Id)">Xóa</button></td>
                 </tr>
             }
         </tbody>
         <tfoot>
             <tr>
-                <th>ID</th>
-                <th>ParentID</th> 
+                <th>ID</th> 
                 <th>Tên</th>
-                <th>URL</th>
+                <th>Mô tả</th>
                 <th>Chi tiết</th>
                 <th>Xóa</th>
             </tr>
@@ -101,70 +94,110 @@
                 <div class="modal-header bg-gradient-info">
                 </div>
                 <div class="modal-body">
-                    <h3>Menu</h3>
+                    <h3>Quản lí slide</h3>
                     <i>Lưu ý điền đầy đủ các thông tin có dấu <span style="color:red">*</span></i>
+                    
                     <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="menuId">ID</label><span style="color:red">*</span>
+                        <div class="col-md-2 ">
+                        <label for="Id">ID(Tự động)</label><span style="color:red">*</span>
                         </div>
-                        <div class="col-md-9">
-                            <input type="text" id="menuId" class="fullwidth"  disabled />
+                        <div class="col-md-4">
+                            <input type="text" id="Id" class="fullwidth"  disabled />
+                        </div>
+
+                        <div class="col-md-2 ">
+                        <label for="config">Trang hiển thị(Tự động)</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="config" class="fullwidth" value="slide trang chủ"  disabled />
                         </div>
                     </div>
 
                     <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="ParentID">ParentID</label><span style="color:red">*</span>
+                        <div class="col-md-2 ">
+                        <label for="Name">Name</label><span style="color:red">*</span> 
                         </div>
-                        <div class="col-md-9">
-                            <input type="text" id="ParentID" class="fullwidth" />
+                        <div class="col-md-4"> 
+                             <input type="text" id="Name"  class="fullwidth" />
+                        </div>
+
+                        <div class="col-md-2 ">
+                        <label for="Image">Ảnh nền</label><span style="color:red">*</span> 
+                        </div>
+                        <div class="col-md-4"> 
+                             <input type="text" id="Image"  class="fullwidth" disabled />
                         </div>
                     </div>
 
                     <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="">Active</label><span style="color:red">*</span> 
+                        <div class="col-md-2 ">
+                        <label for="alignment">Căn lề</label> <span style="color:red">*</span>
                         </div>
-                        <div class="col-md-9">
-                            <select id="Active" disabled>
-                                <option value="1">Public</option>
-                                <option value="0">Private</option>
+                        <div class="col-md-4">
+                            @*<input type="text" id="alignment" class="fullwidth" />*@
+                            <select id="alignment">
+                                <option value="text-left">Trái</option>
+                                <option value="text-right">Phải</option>
+                                <option value="text-center">Giữa</option>
                             </select>
+                        </div>
+
+                        @*<div class="col-md-2 ">
+                        <label for="ImageUpdate">Chọn ảnh mới</label><span style="color:red">*</span>
+                        </div>
+                        <div class="col-md-4"> 
+                            <input class="fullwidth" type="file" name="ImageUpdate" id= "ImageUpdate" accept="image/*" />
+                        </div>*@
+                    </div>
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-2 ">
+                        <label for="tieu-de-1">Tiêu đề 1</label><span style="color:red">*</span> 
+                        </div>
+                        <div class="col-md-4"> 
+                             <input type="text" id="tieu-de-1"  class="fullwidth" />
                         </div>
                     </div>
                     
                     <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="Name">Name</label><span style="color:red">*</span>
+                        <div class="col-md-2 ">
+                        <label for="tieu-de-2">Tiêu đề 2</label><span style="color:red">*</span>
                         </div>
-                        <div class="col-md-9">
-                            <input type="text" id="Name"  class="fullwidth" />
+                        <div class="col-md-10">
+                            <input type="text" id="tieu-de-2"  class="fullwidth" />
                         </div>
-                    </div>  
+                    </div>   
                     <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="Url">Url</label><span style="color:red">*</span>
+                        <div class="col-md-2 ">
+                        <label for="tieu-de-3">Tiêu đề 3</label>
                         </div>
-                        <div class="col-md-9">
-                            <input type="text" id="Url" class="fullwidth"  />
-                        </div>
-                    </div> 
-                    <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="Description">Description</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" id="Description" class="fullwidth"   />
+                        <div class="col-md-10">
+                            <input type="text" id="tieu-de-3" class="fullwidth"   />
                         </div>
                     </div>
                     <div class="row modal-row-menu">
-                        <div class="col-md-3 ">
-                        <label for="">Created Time<span style="color:red">*</span></label>
+                        <div class="col-md-2 ">
+                        <label for="button-name">Tiêu đề nút</label>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-4">
+                            <input type="text" id="button-name" class="fullwidth"   />
+                        </div>
+                        <div class="col-md-2 ">
+                        <label for="button-url">Đường dẫn nút bấm</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="button-url" class="fullwidth"   />
+                        </div>
+                    </div>
+
+                    <div class="row modal-row-menu">
+                        <div class="col-md-2 ">
+                        <label for="CreatedTime">Published Time<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-10">
                             <input type="datetime-local" id="CreatedTime" />
                         </div>
-                    </div> 
+                    </div>
                      
                 </div>
                 <div class="modal-footer">
@@ -188,26 +221,35 @@
     async function Edit(id) {  
         // show modal details and load data by id
         $("#modal-id").show();
+        
+        // get obj by getdetail
         let obj = await getItemByID(id);
-        debugger;
-		 $("#menuId").val(obj[0].Id);
-		 $("#ParentID").val(obj[0].ParentId);
-		 $("#Active").val(obj[0].Active);
-		 $("#Name").val(obj[0].Name);
-		 $("#Url").val(obj[0].Url);
-		 $("#Description").val(obj[0].Description);
-		 $("#CreatedTime").val(obj[0].CreatedTime);
+        // parse description to array
+        const item = JSON.parse(obj[0].Description) ;
+        debugger;   
+        // load data
+        $("#Id").val(obj[0].Id);
+        $("#Name").val(obj[0].Name);
+
+        $("#alignment").val(item[0]['alignment']);
+        $("#Image").val(item[0]['Image']);
+        $("#tieu-de-1").val(item[0]['tieude1']); 
+        $("#tieu-de-2").val(item[0]['tieude2']); 
+        $("#tieu-de-3").val(item[0]['tieude3']); 
+        $("#button-name").val(item[0]['buttonName']); 
+        $("#button-url").val(item[0]['buttonUrl']);  
+		$("#CreatedTime").val(obj[0].CreatedTime);
     }
 
     async function getItemByID(id) {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "/menu/api/detail/" + id ,
+                url: "/viewstatus/api/detail/" + id ,
                 type: "GET",
                 async: 'true',
                 contentType: "application/json",
                 success: function (responseData) {
-                    debugger;
+                    //debugger;
                     Item = JSON.parse(responseData);
                     resolve(Item)
                 },
@@ -251,7 +293,7 @@
             if (result.isConfirmed) {
                 //var obj = await GetDetailItem(id);
                 $.ajax({
-                    url: "/menu/api/delete",
+                    url: "/viewstatus/api/delete",
                     type: 'POST',
                     contentType: 'application/JSON',
                     data: JSON.stringify({ "id": id }),
@@ -279,11 +321,7 @@
     function Submit() {
         // verify thỏa mãn điều kiện trước khi tạo 
             var resultSubmit = true;
-
-            // mặc định nếu k điền thì parentid sẽ mang giá trị 0
-            if( $("#ParentID").val().trim() == "" ||  $("#ParentID").val().trim() == null) {
-                $("#ParentID").val("0");
-            }
+             
 
             if( $("#Name").val().trim() == "" ||  $("#Name").val().trim() == null) {
                 resultSubmit = false;
@@ -296,12 +334,56 @@
                 });
             }
 
-            if( $("#Url").val().trim() == "" ||  $("#Url").val().trim() == null) {
+            if( $("#tieu-de-1").val().trim() == "" ||  $("#tieu-de-1").val().trim() == null) {
                 resultSubmit = false;
                 Swal.fire({
                 icon: 'warning',
                 title: 'Cần điền đầy đủ thông tin',
-                text: 'Url không thể bị bỏ trống',
+                text: 'tieu-de-1 không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+
+            if( $("#tieu-de-2").val().trim() == "" ||  $("#tieu-de-2").val().trim() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'tieu-de-2 không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+
+            if( $("#tieu-de-3").val().trim() == "" ||  $("#tieu-de-3").val().trim() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'tieu-de-3 không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+
+            if( $("#button-name").val().trim() == "" ||  $("#button-name").val().trim() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'button-name không thể bị bỏ trống',
+                showCloseButton: true,
+                showCancelButton: true
+                });
+            }
+
+            if( $("#button-url").val().trim() == "" ||  $("#button-url").val().trim() == null) {
+                resultSubmit = false;
+                Swal.fire({
+                icon: 'warning',
+                title: 'Cần điền đầy đủ thông tin',
+                text: 'button-url không thể bị bỏ trống',
                 showCloseButton: true,
                 showCancelButton: true
                 });
@@ -322,24 +404,39 @@
                 Swal.fire({
                 icon: 'question',
                 title: 'Confirm?',
-                text: 'Bạn có muốn sửa menu ?',
+                text: 'Bạn có muốn sửa slide ?',
                 showCloseButton: true,
                 showCancelButton: true
             }).then((result) => {
                 if (result.isConfirmed) { 
-                    var obj = {
-                        "ID": $("#menuId").val(), 
-                        "ParentID": $("#ParentID").val(), 
-                        "Active": $("#Active").val(),
-                        "Name": $("#Name").val(),
-                        "Url": $("#Url").val(),
-                        "Priority" : 100,   // set mặc định cho priority
-                        "GroupID" : 1,  // set mặc định cho groupid
-                        "Description": $("#Description").val(), 
+                    //check xem co update img khong ?
+                    //var linkimg1 = $("#Image").val();
+                    //if($('#ImageUpdate').val() != '') {
+                    //    linkimg1 = $('#ImageUpdate').val();
+                    //}
+
+                    var allData = [];
+                    const objAllData = {
+                        "alignment": $("#alignment").val(),
+                        "Image": $("#Image").val(),
+                        "tieude1": $("#tieu-de-1").val(),
+                        "tieude2": $("#tieu-de-2").val(),
+                        "tieude3": $("#tieu-de-3").val(),
+                        "buttonName": $("#button-name").val(),
+                        "buttonUrl": $("#button-url").val(), 
+                    };
+                    debugger;
+                    allData.push(objAllData);
+
+                    var obj = {  
+                        "Id" : $("#Id").val(),
+                        "Name": $("#Name").val(), 
+                        "Description": JSON.stringify(allData),
                         "CreatedTime": $("#CreatedTime").val(),
+
                     }
                     $.ajax({
-                        url: "/menu/api/edit",
+                        url: "/viewstatus/api/edit",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify(obj),
@@ -347,7 +444,7 @@
                        
                             Swal.fire({
                                 icon: 'success',
-                                title: '<strong>Đã chỉnh sửa Menu!</strong>',
+                                title: '<strong>Đã chỉnh sửa Slide!</strong>',
                                 showCloseButton: true,
                                 focusConfirm: false,
                             }).then(resultt => {
