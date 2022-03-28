@@ -50,9 +50,9 @@ namespace Daihoc_FPT_News.Controllers
                 [Route("receiveData")]
                 public JsonResult YourMethod(string o)
                 {
-                //var saveObject = Newtonsoft.Json.JsonConvert.DeserializeObject<clsMail>(o);
-                clsMail a = new clsMail(); 
-                a.Send(o, "Gửi mail demo", "<h1>Nội dung mail gửi đi<h1>");
+                ////var saveObject = Newtonsoft.Json.JsonConvert.DeserializeObject<clsMail>(o);
+                //clsMail a = new clsMail(); 
+                //a.Send(o, "Gửi mail demo", "<h1>Nội dung mail gửi đi<h1>");
                 return Json("ok");
                 }
 

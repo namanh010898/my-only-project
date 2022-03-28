@@ -82,7 +82,7 @@ namespace Daihoc_FPT_News
 
             services.AddScoped<IViewStatusRepository, ViewStatusRepository>();
 
-            //services.AddScoped<ISubscribeRepository, SubscribeRepository>();
+            services.AddScoped<ISubcribeRepository, SubcribeRepository>();
 
             services.AddSingleton<ICacheHelper, CacheHelper>();
 

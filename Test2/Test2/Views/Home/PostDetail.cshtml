@@ -41,16 +41,27 @@
             }).then((result) =>{
                 if (result.isConfirmed) { 
                     
+
+                    var obj = { 
+                        "Active": 1,
+                        "Name": $(".swal2-input").val(), 
+                        "Description": $('#title-name').text(),  
+
+                    }
+
                     debugger;
                     $.ajax({
+                         url: "/subcribe/api/add",
                         type: "POST",
-                        url: "EventRequest/receiveData",
-                        dataType: "json",
-                        data: {
-                            o: "namanhnguyen108@gmail.com"
-                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(obj), 
                         success: function (data) {
-                           alert('Success');
+                           Swal.fire({
+                                title: '<strong>Đã đăng kí tham gia thành công!</strong>',
+                                icon: 'success',
+                                showCloseButton: true,
+                                focusConfirm: false,
+                            });
 
                         },
                         error: function () {

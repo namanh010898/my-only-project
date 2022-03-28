@@ -7,9 +7,9 @@ public class clsMail
 {
     private  readonly string _from = "anhnnse06182@fpt.edu.vn"; // Email của Sender (của bạn)
     private  readonly string _pass = "namanh1998"; // Mật khẩu Email của Sender (của bạn)
-
-    public  string Send(string sendto, string subject, string contentz)
-    {
+    
+   public  string Send(string sendto, string subject)
+    { 
         //Daihoc_FPT_News.Models.Post post1 : tham so t3
         //sendto: Email receiver (người nhận)
         //subject: Tiêu đề email
@@ -17,14 +17,14 @@ public class clsMail
         //Nếu gửi email thành công, sẽ trả về kết quả: OK, không thành công sẽ trả về thông tin l�-i
 
 
-                    //< h4 > Dưới đây là thông tin sự kiện:</ h4 >
-   
+        //< h4 > Dưới đây là thông tin sự kiện:</ h4 >
 
-                    //   < p > Thời gian: " + eventTime + @" </ p >
-      
-                    //      < p > Nội dung: " + eventName + @".</ p >
-         
-                    //         < p > Địa điểm sự kiện: " + eventAddress + @" </ a ></ p >
+
+        //   < p > Thời gian: " + eventTime + @" </ p >
+
+        //      < p > Nội dung: " + eventName + @".</ p >
+
+        //         < p > Địa điểm sự kiện: " + eventAddress + @" </ a ></ p >
         try
         {
             MailMessage mail = new MailMessage();
@@ -184,8 +184,8 @@ public class clsMail
         <table border='0' cellpadding='0' cellspacing='0' width='90%' style='margin: 0 5%'>
           <tr>
             <td align='center' valign='top' style='padding: 36px 24px;'>
-              <a href='https://a2f.business.gov.vn' target='_blank' style='display: inline-block;'>
-                <img src='https://a2f.business.gov.vn/images/a2flogo.png' alt='Logo' border='0'   style='display: block; min-width: 48px;'>
+              <a href='#' target='_blank' style='display: inline-block;'>
+                <img src='https://upload.wikimedia.org/wikipedia/vi/1/1d/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.png' alt='Logo' border='0'   style='display: block; min-width: 48px;'>
               </a>
             </td>
           </tr>
@@ -236,7 +236,7 @@ public class clsMail
           <!-- start copy -->
           <tr>
             <td align='left' bgcolor='#ffffff' style='padding: 24px; font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif; font-size: 16px; line-height: 24px;'>
-              <p style='margin: 0; padding-bottom: 10px;font-size: 18px!important;'>Thân chào, cảm ơn bạn đã đăng ký tham gia sự kiện: <b></b></p>
+              <p style='margin: 0; padding-bottom: 10px;font-size: 18px!important;'>Thân chào, cảm ơn bạn đã đăng ký tham gia sự kiện <b></b></p>
                     <h4>Cảm ơn bạn đã đăng ký tham dự sự kiện của chúng tôi.</h4>
                      
                     <p>Hẹn gặp bạn tại sự kiện!</p>
@@ -254,7 +254,7 @@ public class clsMail
    
                <td align = 'left' bgcolor = '#ffffff' style = 'padding: 24px; font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf'>
         
-                      <p style = 'margin: 0;'> Trân trọng! <br> A2F <br> Bộ kế hoạch và đầu tư - Cục phát triển doanh nghiệp</p>
+                      <p style = 'margin: 0;'> Trân trọng! <br> Đai học FPT  <br> Trường công nghệ cao Đại học</p>
                   
                               </td>
                   
