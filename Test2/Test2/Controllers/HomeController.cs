@@ -60,22 +60,26 @@ namespace Daihoc_FPT_News.Controllers
             var dataSlideViewModel = new List<ViewSlideModel>();
             foreach (var item in listAllSlide)
             {
-                var objViewModel = new ViewSlideModel();
+                if(item.Description != "")
+                {
+                    var objViewModel = new ViewSlideModel();
 
-                var JsonSlide = new List<ViewSlideModel>();
-                JsonSlide = JsonConvert.DeserializeObject<List<ViewSlideModel>>(item.Description);
+                    var JsonSlide = new List<ViewSlideModel>();
+                    JsonSlide = JsonConvert.DeserializeObject<List<ViewSlideModel>>(item.Description);
 
-                objViewModel.alignment = JsonSlide[0].alignment;
-                objViewModel.Image = JsonSlide[0].Image;
-                objViewModel.tieude1 = JsonSlide[0].tieude1;
-                objViewModel.tieude2 = JsonSlide[0].tieude2;
-                objViewModel.tieude3 = JsonSlide[0].tieude3;
-                objViewModel.buttonName = JsonSlide[0].buttonName;
-                objViewModel.buttonUrl = JsonSlide[0].buttonUrl;
-                dataSlideViewModel.Add(objViewModel);
+                    objViewModel.alignment = JsonSlide[0].alignment;
+                    objViewModel.Image = JsonSlide[0].Image;
+                    objViewModel.tieude1 = JsonSlide[0].tieude1;
+                    objViewModel.tieude2 = JsonSlide[0].tieude2;
+                    objViewModel.tieude3 = JsonSlide[0].tieude3;
+                    objViewModel.buttonName = JsonSlide[0].buttonName;
+                    objViewModel.buttonUrl = JsonSlide[0].buttonUrl;
+                    dataSlideViewModel.Add(objViewModel);
+                } 
             }
 
             ViewBag.DataSlideViewModel = dataSlideViewModel;
+
             return View();
         }
 
